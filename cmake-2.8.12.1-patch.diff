@@ -1,0 +1,26 @@
+diff -ru cmake-2.8.12.1-orig/Modules/FindSWIG.cmake cmake-2.8.12.1/Modules/FindSWIG.cmake
+--- cmake-2.8.12.1-orig/Modules/FindSWIG.cmake	2013-11-05 20:07:22.000000000 +0100
++++ cmake-2.8.12.1/Modules/FindSWIG.cmake	2013-12-24 23:11:51.561312112 +0100
+@@ -45,7 +45,7 @@
+     string(REGEX REPLACE "[\n\r]+" ";" SWIG_swiglib_output ${SWIG_swiglib_output})
+     # force the path to be computed each time in case SWIG_EXECUTABLE has changed.
+     set(SWIG_DIR SWIG_DIR-NOTFOUND)
+-    find_path(SWIG_DIR swig.swg PATHS ${SWIG_swiglib_output})
++    find_path(SWIG_DIR swig.swg PATHS ${SWIG_swiglib_output} NO_CMAKE_FIND_ROOT_PATH)
+     if(SWIG_DIR)
+       set(SWIG_USE_FILE ${CMAKE_ROOT}/Modules/UseSWIG.cmake)
+       execute_process(COMMAND ${SWIG_EXECUTABLE} -version
+diff -ru cmake-2.8.12.1-orig/Modules/Platform/Darwin.cmake cmake-2.8.12.1/Modules/Platform/Darwin.cmake
+--- cmake-2.8.12.1-orig/Modules/Platform/Darwin.cmake	2013-11-05 20:07:22.000000000 +0100
++++ cmake-2.8.12.1/Modules/Platform/Darwin.cmake	2013-12-25 11:16:54.998070493 +0100
+@@ -341,7 +341,9 @@
+     list(APPEND _apps_paths "${_apps}")
+   endif()
+ endforeach()
+-list(REMOVE_DUPLICATES _apps_paths)
++if(_apps_paths)
++    list(REMOVE_DUPLICATES _apps_paths)
++endif()
+ set(CMAKE_SYSTEM_APPBUNDLE_PATH
+   ${_apps_paths})
+ unset(_apps_paths)

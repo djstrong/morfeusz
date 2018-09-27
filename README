@@ -1,0 +1,268 @@
+
+***************
+Compilation - prerequisites
+***************
+
+This tutorial assumes that build process is performed on Linux 64bit machine (preferably from Debian/Ubuntu family).
+
+sudo apt-get install build-essential autotools-dev python python-setuptools python-stdeb python-pip python-all-dev python-pyparsing devscripts libcppunit-dev acl
+sudo pip install pyinstaller
+
+For cross compiling:
+--------------------
+
+sudo apt-get install g++-multilib g++-mingw-w64 nsis libssl.0.9.8:i386
+
+For cross compiling using buildAll.sh script:
+---------------------------------------------
+
+sudo apt-get install g++-multilib g++-mingw-w64 nsis libssl.0.9.8:i386 moreutils
+
+For Java and Python bindings:
+-----------------------------
+sudo apt-get install default-jdk swig
+
+
+Java and Python bindings with cross-compilation support:
+--------------------------------------------------------
+Download CMake 2.8.x (tested on 2.8.12.1).
+Apply cmake-2.8.12..1-patch.diff on the sources.
+Build and install CMake from patched sources.
+
+Java and Python bindings without cross-compilation support:
+-----------------------------------------------------------
+sudo apt-get install cmake
+
+***************
+Compilation
+***************
+Create separate build directory in morfeusz root, run cmake and make in it:
+
+mkdir build
+cd build
+cmake ..
+make
+
+***************
+Testing
+***************
+
+To compile and run tests you must have cppunit library installed.
+To test if everything is working type:
+
+make
+make package-java ### to also test Java wrapper
+make package-python ### to also test Python wrapper
+make test
+
+If some tests fail, you can see errors by invoking:
+
+ctest --output-on-failure
+
+***************
+Packaging
+***************
+
+Create packages for target platform:
+
+make package
+
+------------------------------
+Note on building DEB packages:
+------------------------------
+Before running "make package" set default access rights on build directory 
+in order to avoid "control-file-has-bad-permissions" lintian error:
+
+setfacl -R -d -m o::r -m g::rx -m u::rwx .
+
+Create packages with Java bindings for target platform:
+
+make package-java
+
+Create packages with Python bindings for target platform:
+
+make package-python
+
+Create packages with dictionary builder:
+
+make package-builder
+
+***************
+Installation
+***************
+
+Install Morfeusz main program, C and C++ headers and libs:
+
+make install
+
+Install Python bindings:
+
+make install-python
+
+***************
+Customizing build process
+***************
+
+Optional CMake variables:
+
+CMAKE_BUILD_TYPE - manually set build type (possible values Debug, Release, RelWithDebInfo and MinSizeRel). 
+Set to Debug if you want to include debugging symbols. Default value is "Release".
+
+INPUT_TAGSET - tagset file
+SEGMENT_RULES_FILE - segmentation rules file
+
+INPUT_DICTIONARIES - comma-separated list of dictionary files (can use empty one from input/empty.txt)
+ANALYZER_DICTIONARY_CPP - a file where analyzer embedded C++ dictionary file is read/written to
+GENERATOR_DICTIONARY_CPP - a file where generator embedded C++ dictionary file is read/written to
+SKIP_DICTIONARY_BUILDING - if set, the dictionary-building part of the build process is skipped
+DEFAULT_DICT_NAME - default dictionary name
+DEFAULT_DICT_DIR - a directory where dictionaries are read/written to
+SKIP_DICTIONARY_BUILDING - do not build dictionaries. Use the ones provided by DEFAULT_DICT_DIR or ANALYZER/GENERATOR_DICTIONARY_CPP options.
+EMBEDDED_DEFAULT_DICT - embed default dictionary into morfeusz library code (implicitly set for Windows and OSX builds).
+CPACK_GENERATOR - manually set which package type to build (see http://www.cmake.org/Wiki/CMake:CPackPackageGenerators for available options)
+DICT_VERSION - dictionary version
+
+CMAKE_INSTALL_PREFIX - where to install morfeusz (on Linux default is /usr/local)
+TARGET_DIR - a dir where packages built by CMake are put in
+
+***************
+Customizing build process - examples
+***************
+----------
+Only build dictionary with default tagset and segmentation rules and given input data:
+----------
+
+cmake \
+    -D INPUT_DICTIONARIES=/path/to/dict1.tab,/path/to/dict2.tab \
+    -D DEFAULT_DICT_DIR=/path/to/dict/dir \
+    -D DEFAULT_DICT_NAME=my_dictionary \
+    ..
+make dictionary
+
+----------
+Build and install in users home directory (on Linux):
+----------
+cmake \
+    -D INPUT_DICTIONARIES=/path/to/dict1.tab,/path/to/dict2.tab \
+    -D CMAKE_INSTALL_PREFIX=$HOME \
+    -D DEFAULT_DICT_NAME=my_dictionary \
+    ..
+make
+make install
+
+----------
+Build packages with embedded dictionary data (TGZ for all systems and installer for Windows).
+Resulting packages will be put in current dir:
+----------
+cmake \
+    -D INPUT_DICTIONARIES=/path/to/dict1.tab,/path/to/dict2.tab \
+    -D DEFAULT_DICT_NAME=my_dictionary \
+    -D EMBEDDED_DEFAULT_DICT=1 \
+    ..
+make
+make package
+
+----------
+Build packages with dictionary data in separate files (creates only DEB on Linux).
+Resulting package will be put in /path/to/target/dir:
+----------
+cmake \
+    -D INPUT_DICTIONARIES=/path/to/dict1,/path/to/dict2 \
+    -D DEFAULT_DICT_NAME=my_dictionary \
+    -D TARGET_DIR=/path/to/target/dir \
+    ..
+make
+make package
+
+----------
+Build DEB with dictionary "my_dictionary" (dependent on morfeusz2) but without executable, includes and shared lib:
+----------
+cmake \
+    -D INPUT_DICTIONARIES=/path/to/dict1,/path/to/dict2 \
+    -D DEFAULT_DICT_NAME=my_dictionary \
+    -D DICT_VERSION=dict_version
+    -D TARGET_DIR=/path/to/target/dir \
+    ..
+make dictionary-deb
+
+
+**************************
+Notes on cross-compilation
+**************************
+
+Copy Java JDK and Python libraries from target platform. Set JAVA_ROOT and PYTHON_ROOT in Toolchain files to match directories copied from target platform.
+
+[Mac OS X 64bit] Libraries are at /System/Library/Frameworks/JavaVM.framework and /System/Library/Frameworks/Python.framework
+
+[Windows 32 and 64 bit] usually at C:\Program Files\Java\jdk* and C:\Python27. You must also copy python27.dll from C:\Windows\System32 to Python27/libs directory.
+
+[Linux 32bit] Java is usually at /usr/lib/jvm/default-java (alternatively you can download a package from Oracle website). The preferred way of obtaining Python is to compile it:
+- compile latest version using ./configure --prefix=/some/directory/python
+- copy contents of /some/directory/python to the build machine and set it as PYTHON_ROOT in Toolchain file
+
+Create separate build directory, for example build-darwin.
+
+Run cross-compilation:
+----------------------
+
+cmake -D CROSSMORFEUSZ_ROOT=<path_to_crossmorfeusz_dir> -DCMAKE_TOOLCHAIN_FILE=../toolchains/Toolchain-xxx.cmake ..
+make
+make package package-java package-python
+
+Layout of crossmorfeusz directory:
+----------------------------------
+
+crossmorfeusz
+  darwin64
+    Python.framework
+    JavaVM.framework
+    x86_64-apple-darwin9
+  windows32
+    Java
+    Python27
+  windows64
+    Java
+    Python27
+  linux32
+    jdk1.7.0_45
+    python  
+
+Notes on Mac OS X cross-compilation:
+------------------
+Very special, very magic and ancient version of gcc OSX compiler is required (Apple is evil and does not support cross-compilation anymore). The best way to obtain it is to personally ask the authors (michal.lenart@ipipan.waw.pl, wolinski@ipipan.waw.pl). Once you get it, the compiler directory (x86_64-apple-darwin9) must be copied into /usr directory.
+
+
+buildAll.sh script:
+-------------------
+./buildAll.sh /path/to/crossmorfeusz /path/to/dictionary1,/path/to/dictionary2,...
+
+*************
+Mac OS X
+*************
+
+## install xcode (using apple store)
+
+# install brew
+ruby -e "$(curl -fsSL https://raw.github.com/mxcl/homebrew/go/install)"
+
+# install some other stuff
+brew install svn
+brew install swig
+brew install make
+
+# If you have Xcode 4.3 or newer the command line tools, such as make, are not installed by default. In Xcode preferences go to the "Downloads" tab and under "Components" push the "Install" button next to "Command Line Tools". After you have successfully downloaded and installed the command line tools you should also type the following command in the Terminal to make sure all your Xcode command line tools are switched to use the 4.3 versions:
+#
+#  sudo xcode-select -switch /Applications/Xcode.app/Contents/Developer
+#
+# Once everything is successfully installed you should see make and other command line developer tools in /usr/bin.
+#
+# torrey.lyons http://stackoverflow.com/questions/11494522/installing-make-on-mac
+
+# Must say everything is okay ("your system is ready to brew"):
+brew doctor
+
+*************
+Windows
+*************
+
+Better cross-compile on Linux...

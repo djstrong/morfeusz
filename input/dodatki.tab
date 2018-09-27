@@ -1,0 +1,353 @@
+0	0	dig
+1	1	dig
+2	2	dig
+3	3	dig
+4	4	dig
+5	5	dig
+6	6	dig
+7	7	dig
+8	8	dig
+9	9	dig
+I	I	romandig
+V	V	romandig
+X	X	romandig
+L	L	romandig
+C	C	romandig
+D	D	romandig
+M	M	romandig
+ń	on	ppron3:sg:gen.acc:m1.m2.m3:ter:nakc:praep
+# naj	naj	naj
+się	się	qub
+sobie	siebie	siebie:loc
+sobie	siebie	siebie:dat
+siebie	siebie	siebie:acc
+siebie	siebie	siebie:gen
+sobą	siebie	siebie:inst
+se	siebie	siebie:dat		niepopr.|pot.
+wolnoć	wolnoć	pred
+boć	boć	comp
+-	-	interp
+–	–	interp
+—	—	interp
+―	―	interp
+.	.	interp
+,	,	interp
+(	(	interp
+)	)	interp
+[	[	interp
+]	]	interp
+{	{	interp
+}	}	interp
+"	"	interp
+„	„	interp
+”	”	interp
+‹	‹	interp
+›	›	interp
+«	«	interp
+»	»	interp
+:	:	interp
+!	!	interp
+?	?	interp
+;	;	interp
+…	…	interp
+*	*	interp
+§	§	interp
+%	%	interp
+“	“	interp
+'	'	interp
+‘	‘	interp
+’	’	interp
+°	°	interp
+•	•	interp
+©	©	interp
+†	†	interp
+/	/	interp
++	+	interp
+=	=	interp
+@	@	interp
+°C	stopień_Celsjusza	brev:npun
+°F	stopień_Fahrenheita	brev:npun
+m²	metr_kwadratowy	brev:npun
+m³	metr_sześcienny	brev:npun
+€	euro	brev:npun
+¥	jen	brev:npun
+art	artykuł	brev:pun
+tys	tysiąc	brev:pun
+r	rok	brev:pun
+zach	zachód	brev:pun
+wsch	wschód	brev:pun
+inż	inżynier	brev:pun
+:-)	:-)	emo
+:)	:)	emo
+;-)	;-)	emo
+;)	;)	emo
+:-))	:-))	emo
+:))	:))	emo
+;-))	;-))	emo
+;))	;))	emo
+:-(	:-(	emo
+:(	:(	emo
+;-(	;-(	emo
+;(	;(	emo
+:-((	:-((	emo
+:((	:((	emo
+;-((	;-((	emo
+;((	;((	emo
+:-P	:-P	emo
+;-P	;-P	emo
+:-D	:-D	emo
+:-P	:-P	emo
+;-P	;-P	emo
+:'-(	:'-(	emo
+:-/	:-/	emo
+:-|	:-|	emo
+>:-)	>:-)	emo
+to	to	pred
+a	A	brev:pun
+b	B	brev:pun
+c	C	brev:pun
+d	D	brev:pun
+e	E	brev:pun
+f	F	brev:pun
+g	G	brev:pun
+h	H	brev:pun
+i	I	brev:pun
+j	J	brev:pun
+k	K	brev:pun
+l	L	brev:pun
+m	M	brev:pun
+n	N	brev:pun
+o	O	brev:pun
+p	P	brev:pun
+q	Q	brev:pun
+r	R	brev:pun
+s	S	brev:pun
+t	T	brev:pun
+u	U	brev:pun
+v	V	brev:pun
+w	W	brev:pun
+x	X	brev:pun
+y	Y	brev:pun
+z	Z	brev:pun
+ż	Ż	brev:pun
+ch	Ch	brev:pun
+st	St	brev:pun
+aero	aero+	prefa
+aero	aero+	prefs
+afro	afro+	prefs
+afro	afro+	prefa
+anarcho	anarcho+	prefa
+anarcho	anarcho+	prefs
+anglo	anglo+	prefa
+antropo	antropo+	prefa
+antropo	antropo+	prefs
+anty	anty+	prefa
+anty	anty+	prefs
+arcy	arcy+	prefa
+arcy	arcy+	prefs
+archi	archi+	prefa
+archi	archi+	prefs
+audio	audio+	prefa
+audio	audio+	prefs
+auto	auto+	prefa
+auto	auto+	prefs
+bez	bez+	prefa
+bio	bio+	prefa
+bio	bio+	prefs
+choreo	choreo+	prefs
+cyber	cyber+	prefa
+cyber	cyber+	prefs
+dez	dez+	prefa
+dez	dez+	prefs
+# do	do+	prefa
+dys	dys+	prefa
+dys	dys+	prefs
+e-	e-+	prefa
+e-	e-+	prefs
+eko	eko+	prefa
+eko	eko+	prefs
+eks	eks+	prefs
+ekstra	ekstra+	prefa
+ekstra	ekstra+	prefs
+elektro	elektro+	prefa
+elektro	elektro+	prefs
+energo	energo+	prefa
+etno	etno+	prefa
+etno	etno+	prefs
+euro	euro+	prefa
+euro	euro+	prefs
+ex	ex+	prefs
+foto	foto+	prefa
+foto	foto+	prefs
+giga	giga+	prefa
+giga	giga+	prefs
+hiper	hiper+	prefa
+hiper	hiper+	prefs
+homo	homo+	prefa
+homo	homo+	prefs
+inter	inter+	prefa
+inter	inter+	prefs
+izo	izo+	prefa
+izo	izo+	prefs
+kontra	kontra+	prefa
+kontra	kontra+	prefs
+kontr	kontr+	prefa
+kontr	kontr+	prefs
+krypto	krypto+	prefa
+krypto	krypto+	prefs
+łże	łże+	prefa
+łże	łże+	prefs
+makro	makro+	prefa
+makro	makro+	prefs
+maxi	maxi+	prefa
+maxi	maxi+	prefs
+mega	mega+	prefa
+mega	mega+	prefs
+meta	meta+	prefa
+meta	meta+	prefs
+midi	midi+	prefa
+midi	midi+	prefs
+między	między+	prefa
+między	między+	prefs
+mikro	mikro+	prefa
+mikro	mikro+	prefs
+mini	mini+	prefa
+mini	mini+	prefs
+mono	mono+	prefa
+mono	mono+	prefs
+multi	multi+	prefa
+multi	multi+	prefs
+nad	nad+	prefa
+nad	nad+	prefs
+# na	na+	prefa
+# na	na+	prefs
+nano	nano+	prefa
+nano	nano+	prefs
+narko	narko+	prefa
+narko	narko+	prefs
+neo	neo+	prefa
+neo	neo+	prefs
+niby	niby+	prefa
+niby	niby+	prefs
+non	non+	prefa
+non	non+	prefs
+od	od+	prefa
+od	od+	prefs
+pan	pan+	prefa
+pan	pan+	prefs
+para	para+	prefa
+para	para+	prefs
+pod	pod+	prefa
+pod	pod+	prefs
+poli	poli+	prefa
+poli	poli+	prefs
+ponad	ponad+	prefa
+porno	porno+	prefa
+porno	porno+	prefs
+post	post+	prefa
+post	post+	prefs
+poza	poza+	prefa
+pra	pra+	prefs
+pre	pre+	prefa
+pre	pre+	prefs
+pro	pro+	prefa
+pro	pro+	prefs
+przeciw	przeciw+	prefa
+przeciw	przeciw+	prefs
+prze	prze+	prefa
+przy	przy+	prefa
+pseudo	pseudo+	prefa
+pseudo	pseudo+	prefs
+psycho	psycho+	prefa
+psycho	psycho+	prefs
+quasi	quasi+	prefa
+quasi	quasi+	prefs
+radio	radio+	prefs
+radio	radio+	prefa
+# re	re+	prefa
+# re	re+	prefs
+samo	samo+	prefa
+samo	samo+	prefs
+spec	spec+	prefs
+stereo	stereo+	prefa
+stereo	stereo+	prefs
+sub	sub+	prefa
+sub	sub+	prefs
+super	super+	prefa
+super	super+	prefs
+śród	śród+	prefa
+śród	śród+	prefs
+tele	tele+	prefa
+tele	tele+	prefs
+termo	termo+	prefs
+termo	termo+	prefa
+trans	trans+	prefa
+trans	trans+	prefs
+turbo	turbo+	prefs
+turbo	turbo+	prefa
+ultra	ultra+	prefa
+ultra	ultra+	prefs
+video	video+	prefa
+video	video+	prefs
+wewnątrz	wewnątrz+	prefa
+wibro	wibro+	prefa
+wibro	wibro+	prefs
+wice	wice+	prefs
+wideo	wideo+	prefa
+wideo	wideo+	prefs
+współ	współ+	prefa
+współ	współ+	prefs
+wszech	wszech+	prefa
+wszech	wszech+	prefs
+wszystko	wszystko+	prefa
+wszystko	wszystko+	prefs
+# za	za+	prefa
+# za	za+	prefs
+przed	przed+	prefa
+# po	po+	prefa
+latkowie	latek	subst:pl:nom.voc:m1	nazwa pospolita	
+latkami	latek	subst:pl:inst:m1	nazwa pospolita	
+latków	latek	subst:pl:gen.acc:m1	nazwa pospolita	
+latek	latek	subst:sg:nom:m1	nazwa pospolita	
+latkach	latek	subst:pl:loc:m1	nazwa pospolita	
+latkom	latek	subst:pl:dat:m1	nazwa pospolita	
+latkowi	latek	subst:sg:dat:m1	nazwa pospolita	
+latkiem	latek	subst:sg:inst:m1	nazwa pospolita	
+latka	latek	subst:sg:gen:m1	nazwa pospolita	
+latku	latek	subst:sg:loc:m1	nazwa pospolita	
+latku	latek	subst:sg:voc:m1	nazwa pospolita	
+latki	latek	depr:pl:nom.acc.voc:m2	nazwa pospolita	
+latka	latek	subst:sg:gen.acc:m1	nazwa pospolita 
+latkom	latka	subst:pl:dat:f	nazwa pospolita	
+latka	latka	subst:sg:nom:f	nazwa pospolita	
+latki	latka	subst:sg:gen:f	nazwa pospolita	
+latki	latka	subst:pl:nom.acc.voc:f	nazwa pospolita	
+latkę	latka	subst:sg:acc:f	nazwa pospolita	
+latką	latka	subst:sg:inst:f	nazwa pospolita	
+latce	latka	subst:sg:dat.loc:f	nazwa pospolita	
+latkami	latka	subst:pl:inst:f	nazwa pospolita	
+latkach	latka	subst:pl:loc:f	nazwa pospolita	
+latko	latka	subst:sg:voc:f	nazwa pospolita	
+latek	latka	subst:pl:gen:f	nazwa pospolita	
+krotności	krotność	subst:sg:gen:f	nazwa pospolita	
+krotności	krotność	subst:sg:voc:f	nazwa pospolita	
+krotnościom	krotność	subst:pl:dat:f	nazwa pospolita	
+krotnością	krotność	subst:sg:inst:f	nazwa pospolita	
+krotnościach	krotność	subst:pl:loc:f	nazwa pospolita	
+krotności	krotność	subst:pl:gen:f	nazwa pospolita	
+krotnościami	krotność	subst:pl:inst:f	nazwa pospolita	
+krotności	krotność	subst:sg:dat.loc:f	nazwa pospolita	
+krotności	krotność	subst:pl:nom.acc.voc:f	nazwa pospolita	
+krotność	krotność	subst:sg:nom:f	nazwa pospolita	
+krotność	krotność	subst:sg:acc:f	nazwa pospolita 
+ściany	ścian	subst:pl:nom.acc.voc:m3	pospolita	mat.
+ścianom	ścian	subst:pl:dat:m3	pospolita	mat.
+ścianów	ścian	subst:pl:gen:m3	pospolita	mat.
+ścianami	ścian	subst:pl:inst:m3	pospolita	mat.
+ścianach	ścian	subst:pl:loc:m3	pospolita	mat.
+ścian	ścian	subst:sg:nom.acc.voc:m3	pospolita	mat.
+ścianowi	ścian	subst:sg:dat:m3	pospolita	mat.
+ścianu	ścian	subst:sg:gen:m3	pospolita	mat.
+ścianem	ścian	subst:sg:inst:m3	pospolita	mat.
+ścianie	ścian	subst:sg:loc:m3	pospolita	mat.
+południowi	południe	subst:sg:dat:n:ncol

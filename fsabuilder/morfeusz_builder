@@ -1,0 +1,374 @@
+#!/usr/bin/python
+# -*- coding:utf-8 -*-
+'''
+Created on 21 paź 2013
+
+@author: mlenart
+'''
+import os
+import sys
+import logging
+import codecs
+from morfeuszbuilder.fsa import encode
+from morfeuszbuilder.fsa import convertinput
+from morfeuszbuilder.fsa.fsa import FSA
+from morfeuszbuilder.fsa.serializer import Serializer, SerializationMethod
+from morfeuszbuilder.tagset.tagset import Tagset
+from morfeuszbuilder.segrules import rulesParser
+from morfeuszbuilder.utils import exceptions, limits
+from optparse import OptionParser
+
+def _checkOption(opt, parser, msg):
+    if opt is None:
+        print >> sys.stderr, msg
+        parser.print_help()
+        exit(1)
+
+def _checkCondition(cond, parser, msg):
+    if not cond:
+        print >> sys.stderr, msg
+        parser.print_help()
+        exit(1)
+
+def _parseListCallback(option, opt, value, parser):
+    setattr(parser.values, option.dest, value.split(','))
+
+def _checkOpen(filename, mode):
+    try:
+        with open(filename, mode) as _:
+            pass
+        if 'w' in mode:
+            os.remove(filename)
+    except IOError as ex:
+        print >> sys.stderr, str(ex)
+        exit(1)
+
+def _getDictFilename(opts, isGenerator):
+    typeCode = 's' if isGenerator else 'a'
+    fname = '%s-%s.dict' % (opts.dictName, typeCode)
+    return os.path.join(opts.dictDir, fname)
+
+def _parseOptions():
+    """
+    Parses commandline args
+    """
+    parser = OptionParser()
+    parser.add_option('--input-files',
+                        type='string',
+                        dest='inputFiles',
+                        action='callback',
+                        callback=_parseListCallback,
+                        metavar='FILES',
+                        help='comma separated list of dictionary files')
+    parser.add_option('--tagset-file',
+                        dest='tagsetFile',
+                        metavar='FILE',
+                        help='path to the file with tagset')
+    parser.add_option('--segments-file',
+                        dest='segmentsFile',
+                        metavar='FILE',
+                        help='path to the file with segment rules')
+    #~ parser.add_option('--trim-supneg',
+                        #~ dest='trimSupneg',
+                        #~ default=False,
+                        #~ action='store_true',
+                        #~ help='this option is ignored and exists only for backwards compatibility')
+    parser.add_option('--dict',
+                        dest='dictName',
+                        help='the name of result dictionary')
+    parser.add_option('--dict-dir',
+                        dest='dictDir',
+                        metavar='FILE',
+                        default=os.getcwd(),
+                        help='path to output directory (the default is current dir)')
+    parser.add_option('--only-analyzer',
+                        dest='onlyAnalyzer',
+                        action='store_true',
+                        default=False,
+                        help='Generate dictionary for morphological analysis only (default is both analysis and synthesis)')
+    parser.add_option('--only-generator',
+                        dest='onlyGenerator',
+                        action='store_true',
+                        default=False,
+                        help='Generate dictionary for morphological synthesis only (default is both analysis and synthesis)')
+    parser.add_option('--analyzer-cpp',
+                        dest='analyzerCpp',
+                        metavar='FILE',
+                        help='Encode analyzer dictionary data in given c++ file')
+    parser.add_option('--generator-cpp',
+                        dest='generatorCpp',
+                        metavar='FILE',
+                        help='Encode generator dictionary data in given c++ file')
+    #~ parser.add_option('--use-arrays',
+                        #~ dest='useArrays',
+                        #~ action='store_true',
+                        #~ default=False,
+                        #~ help='store states reachable by 2 transitions in arrays (should speed up recognition, available only when --serialization-method=V1)')
+    parser.add_option('--serialization-method',
+                        dest='serializationMethod',
+                        default='V1',
+                        help="FSA serialization method: \
+                        SIMPLE - fixed-length transitions, fastest and weakest compression \
+                        V1 - variable-length transitions, compressed labels - strongest compression \
+                        V2 - format similar to the default in Jan Daciuk's fsa package - variable-length transitions, non-compressed labels - good compression, good speed")
+    #~ parser.add_option('--visualize',
+                        #~ dest='visualize',
+                        #~ action='store_true', 
+                        #~ default=False,
+                        #~ help='visualize result')
+    parser.add_option('--analyzer-train-file',
+                        dest='analyzerTrainFile',
+                        help='A text file used for analyzer training. Should contain words from some large corpus - one word in each line. Resulting analysis automaton should be faster with proper train file.')
+    parser.add_option('--generator-train-file',
+                        dest='generatorTrainFile',
+                        help='A text file used for generator training. Should contain words from some large corpus - one word in each line. Resulting synthesis automaton should be faster with proper train file.')
+    parser.add_option('--debug',
+                        dest='debug',
+                        action='store_true',
+                        default=False,
+                        help='output some debugging info')
+    #~ parser.add_option('--profile',
+                        #~ dest='profile',
+                        #~ action='store_true',
+                        #~ default=False,
+                        #~ help='show profiling graph (required pycallgraph and graphviz')
+    
+    opts, args = parser.parse_args()
+    
+    _checkOption(opts.inputFiles, parser, "Input file is missing")
+    _checkOption(opts.dictDir, parser, "Output dictionary dir is missing")
+    _checkCondition((opts.onlyAnalyzer, opts.onlyGenerator) != (True, True), 
+                              parser, 'Cannot set both --only-analyzer and --only-generator')
+    writeCpp = {opts.analyzerCpp, opts.generatorCpp} != {None}
+    _checkCondition(opts.dictName or writeCpp, parser, "Dictionary name is missing")
+    _checkCondition(opts.onlyGenerator or opts.analyzerCpp or not writeCpp, parser, "Analyzer .cpp output file path is missing")
+    _checkCondition(opts.onlyAnalyzer or opts.generatorCpp or not writeCpp, parser, "Generator .cpp output file path is missing")
+    #~ _checkCondition((opts.dictName, opts.outputCpp) != (None, None), 
+                              #~ parser, 'Must set at least one of: --dict-name, --output-cpp')
+    #~ _checkOption(opts.outputFile, parser, "Output file is missing")
+    _checkOption(opts.tagsetFile, parser, "Tagset file is missing")
+    _checkOption(opts.segmentsFile, parser, "Segmentation file is missing")
+    #~ _checkOption(opts.serializationMethod, parser, "Serialization method file is missing")
+    #~ _checkExactlyOneOptionSet([opts.analyzer, opts.generator], 
+                              #~ parser, 'Must set exactly one FSA type: --analyzer or --generator')
+    
+    _checkOpen(opts.tagsetFile, 'r')
+    _checkOpen(opts.segmentsFile, 'r')
+    for filename in opts.inputFiles:
+        _checkOpen(filename, 'r')
+    if not opts.onlyGenerator:
+        _checkOpen(_getDictFilename(opts, isGenerator=False), 'w')
+    if not opts.onlyAnalyzer:
+        _checkOpen(_getDictFilename(opts, isGenerator=True), 'w')
+    
+    if not opts.serializationMethod.upper() in [SerializationMethod.SIMPLE, SerializationMethod.V1]:
+        print >> sys.stderr, '--serialization-method must be one of ('+str([SerializationMethod.SIMPLE, SerializationMethod.V1])+')'
+        parser.print_help()
+        exit(1)
+    
+    return opts
+
+def _concatFiles(inputFiles):
+    for inputFile in inputFiles:
+        if inputFile:
+            with open(inputFile, 'r') as f:
+                for line in f:
+                    yield line
+
+def _readDictIdAndCopyright(inputFiles):
+    dictId = None
+    copyright = None
+    for inputFile in inputFiles:
+        if inputFile:
+            with codecs.open(inputFile, 'r', 'utf8') as f:
+                inCopyright = False
+                for linenum, line in enumerate(f, start=1):
+                    if dictId is None and line.startswith(u'#!DICT-ID'):
+                        dictIdTag, _, dictId = line.strip().partition(u' ')
+                        exceptions.validate(
+                            dictIdTag == u'#!DICT-ID',
+                            u'Dictionary ID tag must be followed by a space character and dictionary ID string')
+                        exceptions.validate(
+                            len(line.split(u' ')) > 1,
+                            u'%s:%d: Must provide DICT-ID' % (inputFile, linenum))
+                        exceptions.validate(
+                            len(line.split(u' ')) == 2,
+                            u'%s:%d: DICT-ID must not contain spaces' % (inputFile, linenum))
+                    elif copyright is None and line.startswith(u'#<COPYRIGHT>'):
+                        exceptions.validate(
+                            line.strip() == u'#<COPYRIGHT>',
+                            u'%s:%d: Copyright start tag must be the only one in the line' % (inputFile, linenum))
+
+                        inCopyright = True
+                        copyright = u''
+
+                    elif line.startswith(u'#</COPYRIGHT>'):
+
+                        exceptions.validate(
+                            inCopyright,
+                            u'%s:%d: Copyright end tag must be preceded by copyright start tag' % (inputFile, linenum))
+
+                        exceptions.validate(
+                            line.strip() == u'#</COPYRIGHT>',
+                            u'%s:%d: Copyright end tag must be the only one in the line' % (inputFile, linenum))
+
+                        inCopyright = False
+
+                    elif inCopyright:
+
+                        copyright += line
+
+    if dictId is None:
+        logging.warn(u'No dictionary ID tag found')
+        dictId = u''
+
+    if copyright is None:
+        logging.warn(u'No copyright info found')
+        copyright = u''
+
+    return (dictId, copyright)
+
+def _readNamesAndQualifiers(inputFiles):
+    names = set([u''])
+    qualifiers = set([frozenset()])
+    lineParser = convertinput.LineParser()
+    for line in _concatFiles(inputFiles):
+        line = line.strip().decode('utf8')
+        if not lineParser.ignoreLine(line):
+            _, _, _, name, qualifier = lineParser.parseLine(line)
+            names.add(name)
+            qualifiers.add(convertinput.parseQualifiers(qualifier))
+    namesMap = dict([(name, idx) for idx, name in enumerate(sorted(list(names)))])
+    qualifiersMap = dict([(quals, idx) for idx, quals in enumerate(sorted(qualifiers, key=lambda q: tuple(sorted(q))))])
+    exceptions.validate(
+                    len(qualifiersMap) <= limits.MAX_QUALIFIERS_COMBINATIONS, 
+                    u'Too many qualifiers combinations. The limit is %d' % limits.MAX_QUALIFIERS_COMBINATIONS)
+    
+    return namesMap, qualifiersMap
+
+def _readPolimorfInput4Analyzer(inputFiles, tagset, namesMap, qualifiersMap, encoder, segmentRulesManager):
+    logging.info('reading analyzer data from %s', str(inputFiles))
+    for entry in convertinput.PolimorfConverter4Analyzer(tagset, namesMap, qualifiersMap, encoder, 'utf8', segmentRulesManager).convert(_concatFiles(inputFiles)):
+        yield entry
+
+def _readPolimorfInput4Generator(inputFiles, tagset, namesMap, qualifiersMap, encoder, segmentRulesManager):
+    logging.info('reading generator data from %s', str(inputFiles))
+    for entry in convertinput.PolimorfConverter4Generator(tagset, namesMap, qualifiersMap, encoder, 'utf8', segmentRulesManager).convert(_concatFiles(inputFiles)):
+        yield entry
+
+def _readTrainData(trainFile):
+    with codecs.open(trainFile, 'r', 'utf8') as f:
+        for line in f:
+            yield line.strip()
+
+def _printStats(fsa):
+    acceptingNum = 0
+    sinkNum = 0
+    arrayNum = 0
+    for s in fsa.dfs():
+        if s.isAccepting():
+            acceptingNum += 1
+        if s.transitionsNum == 0:
+            sinkNum += 1
+        if s.serializeAsArray:
+            arrayNum += 1
+    logging.info('states num: '+str(fsa.getStatesNum()))
+    logging.info('transitions num: '+str(fsa.getTransitionsNum()))
+    logging.info('accepting states num: '+str(acceptingNum))
+    logging.info('sink states num: '+str(sinkNum))
+    logging.info('array states num: '+str(arrayNum))
+
+def buildAnalyzerFromPoliMorf(inputFiles, tagset, namesMap, qualifiersMap, segmentRulesManager):
+    encoder = encode.MorphEncoder()
+    fsa = FSA(encoder, tagset)
+    for word, data in _readPolimorfInput4Analyzer(inputFiles, tagset, namesMap, qualifiersMap, encoder, segmentRulesManager):
+#         print word, data
+        fsa.addEntry(word, data)
+        del word
+        del data
+    fsa.close()
+    logging.info('------')
+    logging.info('Analyzer FSA stats:')
+    logging.info('------')
+    _printStats(fsa)
+    return fsa
+
+def buildGeneratorFromPoliMorf(inputFiles, tagset, namesMap, qualifiersMap, segmentRulesManager):
+    encoder = encode.Encoder4Generator()
+    fsa = FSA(encoder, tagset)
+    inputData = _readPolimorfInput4Generator(inputFiles, tagset, namesMap, qualifiersMap, encoder, segmentRulesManager)
+    for word, data in inputData:
+        fsa.addEntry(word, data)
+    fsa.close()
+    logging.info('------')
+    logging.info('Generator FSA stats:')
+    logging.info('------')
+    _printStats(fsa)
+    return fsa
+
+def _doBuildDictionaryPart(opts, dictId, copyrightTxt, tagset, namesMap, qualifiersMap, isGenerator):
+    
+    logging.info('reading segmentation rules')
+    rulesParserVersion = rulesParser.RulesParser.PARSE4ANALYZER if not isGenerator else rulesParser.RulesParser.PARSE4GENERATOR
+    segmentRulesManager = rulesParser.RulesParser(tagset, namesMap, qualifiersMap, rulesParserVersion).parse(opts.segmentsFile)
+    segmentationRulesData = segmentRulesManager.serialize()
+    logging.info('done reading segmentation rules')
+    
+    logging.info('building automaton')
+    buildFunction = buildAnalyzerFromPoliMorf if not isGenerator else buildGeneratorFromPoliMorf
+    fsa = buildFunction(opts.inputFiles, tagset, namesMap, qualifiersMap, segmentRulesManager)
+    logging.info('done building automaton')
+    
+    if not isGenerator and opts.analyzerTrainFile:
+        logging.info('training analyzer automaton with '+opts.analyzerTrainFile+' ...')
+        fsa.train(_readTrainData(opts.analyzerTrainFile))
+        logging.info('done training')
+    
+    if isGenerator and opts.generatorTrainFile:
+        logging.info('training generator automaton with '+opts.generatorTrainFile+' ...')
+        fsa.train(_readTrainData(opts.analyzerTrainFile))
+        logging.info('done training')
+    
+    serializer = Serializer.getSerializer(opts.serializationMethod, fsa, dictId, copyrightTxt, tagset, namesMap, qualifiersMap, segmentationRulesData)
+    if opts.generatorCpp and isGenerator:
+        serializer.serialize2CppFile(opts.generatorCpp, isGenerator=isGenerator)
+    if opts.analyzerCpp and not isGenerator:
+        serializer.serialize2CppFile(opts.analyzerCpp, isGenerator=isGenerator)
+    
+    if opts.dictDir:
+        serializer.serialize2BinaryFile(_getDictFilename(opts, isGenerator=isGenerator), isGenerator=isGenerator)
+    
+    logging.info('total FSA size (in bytes): '+str(fsa.initialState.reverseOffset))
+
+def main(opts):
+    if opts.debug:
+        logging.basicConfig(level=logging.DEBUG)
+    else:
+        logging.basicConfig(level=logging.INFO)
+    
+    logging.info('reading tagset')
+    tagset = Tagset(opts.tagsetFile)
+    logging.info('done reading tagset')
+    
+    logging.info('reading names and qualifiers')
+    dictId, copyrightTxt = _readDictIdAndCopyright(opts.inputFiles)
+    namesMap, qualifiersMap = _readNamesAndQualifiers(opts.inputFiles)
+    logging.info('done reading names and qualifiers')
+    
+    if not opts.onlyGenerator:
+        _doBuildDictionaryPart(opts, dictId, copyrightTxt, tagset, namesMap, qualifiersMap, isGenerator=False)
+
+    if not opts.onlyAnalyzer:
+        _doBuildDictionaryPart(opts, dictId, copyrightTxt, tagset, namesMap, qualifiersMap, isGenerator=True)
+
+if __name__ == '__main__':
+    import os
+    opts = _parseOptions()
+    #~ try:
+    main(opts)
+    #~ except Exception as ex:
+        #~ print >> sys.stderr, u'Building dictionary file failed:', unicode(ex).encode('utf8'), 'type of error:', type(ex)
+        #~ sys.exit(1)
+    #~ finally:
+        #~ pass
+

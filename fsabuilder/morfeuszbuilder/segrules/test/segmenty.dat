@@ -1,0 +1,214 @@
+[options]
+aggl=permissive strict isolated
+praet=split composite
+
+[combinations]
+#define wsz_interp (interp|kropka|dywiz)*
+
+#define moze_interp(segmenty) wsz_interp segmenty wsz_interp
+
+# Segmenty występujące samodzielnie:
+#
+# domyślny typ segmentu samodzielnego:
+moze_interp(samodz)
+
+# segment samotny, który nie dopuszcza nawet znaku interpunkcyjnego po
+# sobie
+samotny
+
+# przeszlik pojedynczy w formie nieaglutynacyjnej, np. „gniótł”:
+moze_interp(praet_sg_na)
+
+# przeszlik pojedynczy w formie niezróżnicowanej aglutynacyjnie, np. „czytał”:
+moze_interp(praet_sg)
+
+# przeszlik mnogi, np. „czytali”:
+moze_interp(praet_pl)
+
+# partykuła „by”:
+moze_interp(by)
+
+# inne segmenty, które dopuszczają po sobie aglutynant,
+# np. „powininna”, „czyżby”:
+moze_interp(z_aglt)
+
+# forma przymiotnikowa (dopuszcza adja):
+moze_interp(adj)
+
+# dywiz (jako samodzielny segment jest tyko błędnym użyciem w funkcji
+# myślnika, ale trzeba to dopuścić):
+dywiz
+
+#ifdef isolated
+adja
+#endif
+
+
+# Połączenia z aglutynantami:
+#
+#ifdef split
+# Czas przeszły:
+# np. „gniotł·am”
+moze_interp( praet_sg_agl aglsg )
+# np. „czytał·em”
+moze_interp(praet_sg aglsg)
+# np. „czytali·ście”
+moze_interp(praet_pl aglpl)
+
+# Tryb warunkowy:
+# np. „gniótł·by”
+moze_interp(praet_sg_na by)
+# np. „czytało·by”
+moze_interp(praet_sg by)
+# np. „gnietli·by”
+moze_interp(praet_pl by)
+# np. „gniótł·by·ś”
+moze_interp(praet_sg_na by aglsg)
+# np. „czytał·by·m”
+moze_interp(praet_sg by aglsg)
+# np. „gnietli·by·śmy”
+moze_interp(praet_pl by aglpl)
+#else
+moze_interp(praetcond)
+#endif
+# np. „by·ś”
+moze_interp(by aglsg)
+# np. „by·ście”
+moze_interp(by aglpl)
+
+# np. „gdyby·m”
+moze_interp(z_aglt aglsg)
+# np. „gdyby·ście”
+moze_interp(z_aglt aglpl)
+
+# To jest dużo za dużo, ale tytułem eksperymentu:
+#ifdef permissive
+moze_interp(samodz aglsg)
+moze_interp(samodz aglpl)
+#endif
+
+# Złożone formy przymiotnikowe
+# np. „biało·-·czerwony”
+moze_interp( (adja dywiz)+ adj )
+# poniższe załatwione przez + powyżej:
+# # np. „niebiesko·-·biało·-·czerwona”
+# adja dywiz adja dywiz adj interp?
+# # itd. (zatrzymujemy się pragmatycznie na 5 członach)
+# adja dywiz adja dywiz adja dywiz adj interp?
+# adja dywiz adja dywiz adja dywiz adja dywiz adj interp?
+
+# Stopień najwyższy:
+# np. „naj·zieleńszy”, „naj·mądrzej”
+moze_interp( naj> adj_sup )
+
+# Formy „zanegowane” gerundiów i imiesłowów:
+# np. „nie·czytanie”, „nie·przeczytany”, „nie·czytający”:
+moze_interp( nie> negat )
+
+# Przyimki akceptujące krótką formę „-ń”
+moze_interp(z_on_agl)
+# np. „do·ń”
+moze_interp(z_on_agl on_agl)
+
+# Liczba zapisana jako ciąg cyfr:
+moze_interp( dig>* dig )
+
+# Formacje prefiksalne
+#### trzeba wydzielić odpowiednie samodze!
+# rzeczownikowe i przymiotnikowe
+# np. „euro·sodoma”, „e-·papieros”, „euro·sodomski”, „bez·argumentowy”
+moze_interp( prefs samodz )
+# czasownikowe np. „po·nakapywać”
+moze_interp( prefv samodz )
+
+# Apozycje z dywizem
+# np. „kobieta-prezydent”
+moze_interp( samodz dywiz samodz )
+# poniższe do sprawdzenia, najwyraźniej obecne w tekstach, skoro wprowadziliśmy:
+# ?
+adj dywiz adj
+# ?
+adj dywiz samodz
+# ?
+samodz dywiz adj
+
+[segment types]
+naj
+nie
+prefs
+prefv
+dig
+adja
+adj
+adj_sup
+negat
+on_agl
+z_on_agl
+samotny
+interp
+aglsg
+aglpl
+praetcond
+praet_sg_agl
+praet_sg_na
+praet_sg
+praet_pl
+samodz
+
+[tags]
+naj	naj
+nie	nie
+prefs	prefs
+prefv	prefv
+dig	dig
+adja	adja
+adj	adj:%:pos
+adj_sup	adj:%:sup
+adj_sup	adv:sup
+negat	ger:%:neg
+negat	pact:%:neg
+negat	ppas:%:neg
+on_agl	ppron3:sg:gen.acc:m1.m2.m3:ter:nakc:praep
+z_on_agl	prep:%
+samotny	brev:pun
+samotny	brev:npun
+samotny	intrj
+interp	interp
+aglsg	aglt:sg:%
+aglpl	aglt:pl:%
+praetcond	cond:%
+praetcond	praet:%:pri:%
+praetcond	praet:%:sec:%
+praetcond	praet:%:ter:%
+praet_sg_agl	praet:sg:%:agl
+praet_sg_na	praet:sg:%:nagl
+praet_sg	praet:sg:%
+praet_pl	praet:pl:%
+praet_sg	winien:sg:%
+praet_pl	winien:pl:%
+samodz		%
+
+[lexemes]
+z_aglt	aby:comp
+z_aglt	bowiem:comp
+by	by:qub
+z_aglt	by:comp
+z_aglt	cóż:subst
+z_aglt	czemu:adv
+z_aglt	czyżby:qub
+z_aglt	choćby:comp
+z_aglt	chociażby:comp
+z_aglt	dlaczego:adv
+z_aglt	dopóki:comp
+z_aglt	dopóty:conj
+z_aglt	gdyby:comp
+z_aglt	gdzie:qub
+z_aglt	gdzie:adv
+z_aglt	jakby:comp
+z_aglt	jakoby:comp
+z_aglt	kiedy:adv
+z_aglt	kiedy:comp
+z_aglt	tylko:qub
+z_aglt	żeby:comp
+dywiz	-:interp
+kropka	.:interp

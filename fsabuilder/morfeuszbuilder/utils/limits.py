@@ -1,0 +1,10 @@
+'''
+Created on 3 cze 2014
+
+@author: mlenart
+'''
+
+MAX_QUALIFIERS_COMBINATIONS = 2048
+MAX_TAGS = 65535
+MAX_NAMES = 255
+MAX_SEGMENT_TYPES = 255

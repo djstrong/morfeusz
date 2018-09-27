@@ -1,0 +1,1916 @@
+[options]
+aggl=strict permissive isolated
+praet=split composite
+
+[combinations]
+#define wsz_interp (interp|dywiz|polpauza|kropka|przecinek)*
+
+#define moze_interp(segmenty) (wsz_interp) segmenty (wsz_interp)
+# define moze_interp(segmenty) segmenty
+
+#define rzeczowniki (subst|ger|depr)
+
+#define	adj (adj_pos|adv_pos|adj_com|adv_com)
+
+#define aglsg (aglsg1_wok|aglsg1_nwok|aglsg2_wok|aglsg2_nwok)
+#define aglpl (aglpl1_wok|aglpl1_nwok|aglpl2_wok|aglpl2_nwok)
+
+#define praet_sg (praet_sg_masc|praet_sg_nmasc)
+
+#define impt (impt_sg_perf|impt_sg_imperf|impt_pl_perf|impt_pl_imperf)
+
+#define fin (fin_imperf|fin_perf)
+
+# Segmenty występujące samodzielnie:
+#
+# domyślny typ segmentu samodzielnego:
+moze_interp(samodz)
+
+# Pojedyncze znaki interpunkcyjne
+moze_interp(interp|kropka|przecinek|dywiz|polpauza)
+
+# segment samotny, który nie dopuszcza nawet znaku interpunkcyjnego po
+# sobie
+samotny
+
+
+# partykuła „by”:
+moze_interp(by)
+
+# inne segmenty, które dopuszczają po sobie aglutynant,
+# np. „powininna”, „czyżby”:
+moze_interp(z_aglt)
+moze_interp(z_aglt_by)
+moze_interp(z_aglt_nwok)
+
+# forma przymiotnikowa (dopuszcza adja):
+moze_interp(adj)
+
+
+# dywiz (jako samodzielny segment jest tylko błędnym użyciem w funkcji
+# myślnika, ale trzeba to dopuścić):
+dywiz
+
+# pauza i półpauza w funkcji myślnika
+pauza
+polpauza
+
+#ifdef isolated
+adja
+pacta
+li
+suf_num
+miary
+aglsg1_wok
+aglsg2_wok
+aglpl1_wok
+aglpl2_wok
+aglsg1_nwok
+aglsg2_nwok
+aglpl1_nwok
+aglpl2_nwok
+brev_pun
+pol_zloz
+num_zloz
+n
+#endif
+
+
+# Połączenia z aglutynantami:
+#
+#ifdef split
+# Czas przeszły:
+# np. „gniotł·am”
+moze_interp( praet_sg_agl (aglsg1_wok|aglsg2_wok) )
+# np. „czytał·em”
+moze_interp( praet_sg_masc (aglsg1_wok|aglsg2_wok))
+# np. czytała·ś, czytało·ś
+moze_interp( praet_sg_nmasc (aglsg1_nwok|aglsg2_nwok))
+# np. „czytali·ście”
+moze_interp( praet_pl (aglpl1_nwok|aglpl2_nwok))
+
+
+# przeszlik pojedynczy w formie nieaglutynacyjnej, np. „gniótł”:
+moze_interp(praet_sg_nagl)
+
+# przeszlik pojedynczy w formie niezróżnicowanej aglutynacyjnie, np. „moze”:
+moze_interp(praet_sg)
+
+# przeszlik mnogi, np. „czytali”:
+moze_interp(praet_pl)
+
+# Tryb warunkowy:
+# np. „gniótł·by”
+moze_interp(praet_sg_nagl by)
+# np. „czytało·by”
+moze_interp(praet_sg by)
+# np. „gnietli·by”
+moze_interp( praet_pl by)
+# np. „gniótł·by·ś”
+moze_interp(praet_sg_nagl by (aglsg1_nwok|aglsg2_nwok))
+# np. „czytał·by·m”
+moze_interp(praet_sg by (aglsg1_nwok|aglsg2_nwok))
+# np. „gnietli·by·śmy”
+moze_interp(praet_pl by (aglpl1_nwok|aglpl2_nwok))
+#else
+moze_interp(praetcond)
+moze_interp(praetaglt)
+moze_interp(praet_sg) !weak
+moze_interp(praet_pl) !weak
+#endif
+
+# Prefiksy czasownikowe dla form fin, rozkaźników i imiesłowów przysłówkowych
+moze_interp(pcon)
+moze_interp(pant)
+
+
+# np. „by·ś”
+moze_interp(by (aglsg1_nwok|aglsg2_nwok))
+# np. „by·ście”
+moze_interp(by (aglpl1_nwok|aglpl2_nwok))
+
+# np. „gdyby·m”
+moze_interp(z_aglt (aglsg1_wok|aglsg2_wok))
+moze_interp((z_aglt_by|z_aglt_nwok) (aglsg1_nwok|aglsg2_nwok))
+# np. „gdyby·ście”
+moze_interp(z_aglt (aglpl1_wok|aglpl2_wok))
+moze_interp((z_aglt_by|z_aglt_nwok) (aglpl1_nwok|aglpl2_nwok))
+# oraz wersje z by, np. chybabym
+moze_interp((z_aglt|z_aglt_nwok) by (aglsg1_nwok|aglsg2_nwok)?)
+moze_interp((z_aglt|z_aglt_nwok) by (aglpl1_nwok|aglpl2_nwok))
+
+# pot. part. ‹że› + aglt, jak w zdaniu „Ty żeś to powiedział”.
+# oraz spójnik ‹że› + aglt, np. „Dziękuję, żeś przyszedł”.
+moze_interp(z_aglt_nwok2)
+moze_interp(z_aglt_nwok2 (aglsg1_nwok|aglsg2_nwok|aglpl1_nwok|aglpl2_nwok))
+
+# Aglutynant przy przymiotnikach i rzeczownikach: 
+# ładni·śmy, świnia·ś
+# Problem: nie można sprawdzić, którą wersję (wok czy nwok) 
+# aglutynantu przykleić, więc dopuszczamy obie, ale to może
+# wpuszczać śmieci.
+# Możliwe dopracowanie: dla rzeczowników można przyciąć intepretacje tylko
+# do mianownika odpowiednich liczb, bo są to konstrukcje orzecznikowe i nie może
+# się tam pojawić nic innego niż mianownik. Nie da się tego samego zrobić
+# dla przymiotników, np.:
+# „Pięknegoście nam przyprowadzili kawalera. 
+#ifdef permissive
+moze_interp((adj|subst|adv_pos|adv_ndm) aglsg)
+moze_interp((adj|subst|adv_pos|adv_ndm) aglpl)
+#endif
+
+moze_interp(adv_ndm)
+
+# złożenia z zaimkami 1. i 2. osoby: ja·m, ty·ś, my·śmy, wy·ście
+moze_interp(ja|ty|my|wy)
+moze_interp(ja aglsg1_nwok)
+moze_interp(ty aglsg2_nwok)
+moze_interp(my aglpl1_nwok)
+moze_interp(wy aglpl2_nwok)
+
+# złożenie z rzeczownikiem PT ‹wszyscy› i aglt: wszyscy·śmy, wszyscy·ście
+moze_interp(wszyscy)
+moze_interp(wszyscy (aglpl2_nwok|aglpl1_nwok))
+
+# Złożone formy przymiotnikowe
+# np. „biało·-·czerwony”
+moze_interp( (adja dywiz)+ adj )
+
+# Złożone formy imiesłowowe
+# np. ssąco-tłoczący
+moze_interp( (pacta dywiz)+ pact )
+
+# Forma złoż. + celownik poprzyimkowy
+# «po serbsko-chorwacku»
+moze_interp(adjp)
+moze_interp( (adja dywiz)+ adjp )
+
+# Formy zanegowane stopnia wyższego przymiotników i przysłówków
+# np. „nie·grzeczniejszy”, „nie·grzeczniej”
+
+moze_interp(nie)
+moze_interp( adj_com|adv_com )
+moze_interp( nie> adj_com ) !weak
+moze_interp( nie> adv_com ) !weak
+
+# Formy „zanegowane” gerundiów i imiesłowów:
+# np. „nie·czytanie”, „nie·przeczytany”, „nie·czytający”:
+moze_interp( negat )
+
+# Formy zanegowane rzeczowników: nie·apostoł, nie·krzesło.
+# Może reguła powinna być „słaba”, żeby wykluczyć z niej
+# subst homonimiczne z ger (nie·mieszkanie)?
+moze_interp( nie > subst ) !weak
+
+# Wersja z dywizem: nie·-·Polak — niestety nie kontrolujemy 
+# wielkości litery początkowej w rzeczowniku, więc akceptowane 
+# jest również nie·-·krzesło. Jeśli w SGJP zostaną odpowiednio uzupełnione
+# kwalifikatory etn., to pewnie będzie można zrezygnować z tej reguły na rzecz:
+# nie > dywiz > etnonimy
+moze_interp( nie > dywiz > subst ) !weak
+
+# Przyimki akceptujące krótką formę „-ń”
+# moze_interp(z_on_agl)
+# np. „do·ń”
+# moze_interp(z_on_agl on_agl)
+# DO USUNIĘCIA — zrobione lepiej poniżej
+
+# Liczba zapisana jako ciąg cyfr:
+moze_interp( dig>* dig )
+
+# Liczby rzymskie
+#define	one_to_three(rdig)	(rdig>{0,2} rdig)
+
+#define rzymskie1	( (romandigI> romandigX) | (romandigV> one_to_three(romandigI)) | romandigV | (romandigI> romandigV) | one_to_three(romandigI) )
+#define rzymskie10	( (romandigX> romandigC) | (romandigL> one_to_three(romandigX)) | romandigL | (romandigX> romandigL) | one_to_three(romandigX) )
+#define rzymskie100	( (romandigC> romandigM) | (romandigD> one_to_three(romandigC)) | romandigD | (romandigC> romandigD) | one_to_three(romandigC) )
+
+#define rzymskie1_shift	( (romandigI> romandigX>) | (romandigV> romandigI>{0,3}) | (romandigI> romandigV>) | romandigI>{1,3} )
+#define rzymskie10_shift	( (romandigX> romandigC>) | (romandigL> romandigX>{0,3}) | (romandigX> romandigL>) | romandigX>{1,3} )
+#define rzymskie100_shift	( (romandigC> romandigM>) | (romandigD> romandigC>{0,3}) | (romandigC> romandigD>) | romandigC>{1,3} )
+
+#define rzymskie1000	( one_to_three(romandigM) )
+#define rzymskie1000_shift	( romandigM>{1,3} )
+
+#define liczba_rzymska  ((rzymskie1000_shift? rzymskie100_shift? rzymskie10_shift? rzymskie1) | (rzymskie1000_shift? rzymskie100_shift? rzymskie10) | (rzymskie1000_shift? rzymskie100) | rzymskie1000)
+
+# Liczby rzymskie
+liczba_rzymska
+
+
+# Formacje prefiksalne
+#### trzeba wydzielić odpowiednie samodze!
+# rzeczownikowe
+# np. „euro·sodoma”, „e-·papieros”
+moze_interp(rzeczowniki)
+
+# nazwy własne i etnonimy — wyłączenie ze zbioru ‹rzeczowniki›
+moze_interp(wlasne)
+moze_interp(etnonimy)
+
+# połączenia nazwisk i członów nazwisk dywizem: Korwin-Mikke
+moze_interp(nazwiska)
+moze_interp(czlonynazwisk)
+moze_interp(czlonynazwisk> dywiz> nazwiska)
+moze_interp(nazwiska> dywiz> nazwiska)
+
+# Nazwy geograficzne dwuczłonowe: Bielsko-Biała, Kudowa-Zdrój.
+# Nie jest to idealne rozwiązanie, ale lepszego chyba nie ma…
+moze_interp(geograficzne)
+moze_interp(geograficzne dywiz geograficzne)
+
+# prefiks z etnonimem tylko przez połączenie dywizem: pseudo-Abchaz
+moze_interp(prefs> dywiz> etnonimy)
+
+moze_interp(subst_anty_zloz)
+moze_interp( prefs> rzeczowniki ) !weak
+# wersja z dywizem, bez ‹e-›
+moze_interp( prefs> dywiz> rzeczowniki ) 
+#!weak
+# powyżej wyłączenie weak
+moze_interp( pref_dyw> rzeczowniki ) !weak
+# czasownikowe np. „po·nakapywać”
+moze_interp(inf_imperf|praet_imperf|imps_imperf|fin_imperf|impt_sg_imperf|impt_pl_imperf|impt_sg_perf|impt_pl_perf)
+# przymiotnikowe i przysłówkowe np. „do·żylny”, 
+# „euro·sodomski”, „bez·argumentowy”
+moze_interp(ppas|adv_pos|pact)
+moze_interp( prefa> ( adj_pos|adv_pos ) ) !weak 
+# wersja z dywizem, bez ‹e-›
+moze_interp( prefa> dywiz> ( adj_pos|adv_pos ) ) !weak 
+moze_interp( pref_dyw> ( adj_pos|adv_pos ) ) !weak 
+
+# Apozycje z dywizem
+# np. „kobieta-prezydent”
+moze_interp( rzeczowniki (dywiz) rzeczowniki ) !weak
+
+# Zakresy liczbowe, daty, np. 1911-1939.
+moze_interp((dig>* dig) dywiz (dig>* dig))
+
+# poniższe do sprawdzenia, najwyraźniej obecne w tekstach, skoro wprowadziliśmy:
+# ?
+# adj dywiz adj
+# ?
+# adj dywiz samodz
+# ?
+# samodz dywiz adj
+
+# Stopień najwyższy:
+# np. „naj·zieleńszy”, „naj·mądrzej”
+moze_interp( adj_sup )
+
+
+# Cząstka li przy osobowych formach czasownika oddzielona dywizem: znasz-li ten kraj
+moze_interp( praet_sg dywiz li)
+moze_interp( praet_sg aglsg dywiz li)
+moze_interp( praet_pl dywiz li)
+moze_interp( praet_pl aglpl dywiz li)
+moze_interp( praet_sg_nagl dywiz li)
+moze_interp( fin_perf)
+moze_interp( fin_imperf)
+moze_interp( (fin_perf|fin_imperf) dywiz li)
+
+# i bez dywizu --- czy bez dywizu jest sens łapać?
+# moze_interp( praet_sg li)
+# moze_interp( praet_pl li)
+# moze_interp( praet_sg_nagl li)
+# moze_interp( (fin_perf|fin_imperf) li)
+
+# Partykuła ‹li› z wyrażenia ‹li tylko›:
+li_tylko
+
+# reguła z partykułą ‹+że› przy trybie rozkazującym
+# zakończonym na spółgłoskę
+moze_interp(impt_sg_imperf ze)
+moze_interp(impt_sg_perf ze)
+# dodatkowo reguła dla part+że (niemalże, omalże, nieomalże):
+# moze_interp(part_z_ze ze) --- już niepotrzebne, part. wpisane do słownika
+
+# i dla ‹+ż› przy zakończonym na samogłoskę
+moze_interp(impt_pl_imperf z)
+moze_interp(impt_pl_perf z)
+
+# TODO? potrzebna jeszcze reguła dla ‹on·że›.
+
+# dziwności: potrzebował·że·by·ś (Lem)
+moze_interp(praet_sg_masc ze by (aglsg1_nwok|aglsg2_nwok)?)
+moze_interp(praet_sg_nmasc z by (aglsg1_nwok|aglsg2_nwok)?)
+moze_interp(praet_pl z by (aglpl1_nwok|aglpl2_nwok)?)
+# oddzielna wersja dla czasowników z formą nagl: mógł·że·by·m
+moze_interp(praet_sg_nagl ze by (aglsg1_nwok|aglsg2_nwok)?)
+
+# forma złoż. liczebnika + przymiotnik, np. wieloaspektowy, pięciomasztowy
+# dwudziestopięcioipółletni
+moze_interp( i )
+moze_interp( pol_zloz> adj_pos ) !weak
+moze_interp( pol_zloz> adv_pos ) !weak
+moze_interp( num_zloz>+ adj_pos ) !weak
+moze_interp( num_zloz>+ adv_pos ) !weak
+moze_interp( num_zloz>+ i> pol_zloz> adj_pos ) !weak
+
+# półdolarówka, półsiostra
+moze_interp( ( pol_zloz>|num_zloz> ) (subst|depr) ) !weak
+# nie analizuje: dwudziestopięcioipółlatek --- powinien?
+# moze_interp( num_zloz (subst|depr) )
+
+# wykluczenie ze złożeń przymiotników: ten, ów, ki, si itp.
+moze_interp(adj_anty_zloz)
+moze_interp(subst_anty_zloz)
+
+# złożenia adja+adj/adv bez dywizu, np. średniopienny
+moze_interp(adja>+ (adj_pos|adv_pos)) !weak
+
+# formy złoż. z samym dywizem w wyrażeniach takich jak:
+# zachodnio- i południowosłowiański, dwu- i pięciozłotowe
+moze_interp((adja|num_zloz|pol_zloz) dywiz ) 
+
+# złożenia konkretnych przyimków z formą -ń rzeczownika on:
+moze_interp(prep_n|prep_na)
+moze_interp((prep_n|prep_na) n)
+
+# Zapis łączny liczby wraz z jednostką miary, np: 5°C, 2m².
+moze_interp(miary)
+moze_interp( dig+ miary )
+
+# predykatywy (typ pred jest używany w regułach dla zapisów niepoprawnych poniżej)
+moze_interp(pred)
+
+# SKRÓTY Z KROPKĄ I BEZ
+moze_interp(brev_npun)
+moze_interp(brev_pun kropka)
+
+# Zapisy typ 67' (67. minuta) — ze względu na NKJP1M
+apostrof
+moze_interp(dig>* dig apostrof)
+
+
+# REGUŁY EKSPERYMENTALNE
+# formy złoż. rzeczowników i sufiksoidów rzeczownikowych
+# moze_interp( substa> sufs ) !weak
+
+# moze_interp( substa> rzeczowniki) !weak
+
+# moze_interp( substa> adj) !weak
+
+# złożenia imiesłowów przymiotnikowych czynnych:
+# trzeba poczekać na formy złoż. imiesłowów.
+
+# liczba arabska z formą przymiotnikową lub przysłówkową: 22-letni, 
+# 1-majowy, 3-krotnie
+moze_interp( dig>+ dywiz> (adj_pos|adv_pos) )
+
+# wersja z ułamkiem dziesiętnym, np. 6,5-metrowy, 8,5-procentowy
+moze_interp( dig>+ przecinek> dig> dywiz> (adj_pos|adv_pos) )
+
+# liczba rzymska z formą przymiotnikową: XIX-wieczny
+moze_interp( (liczba_rzymska)> dywiz> adj_pos )
+moze_interp( (liczba_rzymska)> dywiz> adv_pos )
+
+# formy złoż. z sufiksami rzeczownikowymi przyłączającymi formy złoż. liczebników:
+# moze_interp( num_zloz>+ suf_num ) !weak
+# moze_interp(num_zloz>+ i> pol_zloz> suf_num ) !weak
+
+# złożenia liczbowe z sufiksami rzeczownikowymi przyłączającymi formy złoż. liczebników:
+moze_interp( dig>+ dywiz> suf_num )
+
+# interpretacja znaków interpunkcyjnych
+# moze_interp(samodz interp)
+
+
+# REGUŁY DLA ZAPISÓW NIEPOPRAWNYCH
+
+# ‹by› z predykatywami łącznie
+# moze_interp(pred by) !weak
+
+# BŁĘDNY ZAPISY Z «NIE» POWINNY BYĆ UWZGLĘDNIONE 
+# RACZEJ NA POZIOMIE EKSPORTU, A NIE REGUŁ SEGMENTACJI
+
+# Stopień najwyższy z ‹nie›:
+# np. „nie·naj·zieleńszy”, „nie·naj·mądrzej”
+# moze_interp( nie> naj> adj_sup ) !weak
+
+# Imiesłowy przysłówkowe z ‹nie›:
+# niepisząc, nienapisawszy
+# moze_interp( nie> pcon) !weak
+# moze_interp( nie> pant) !weak
+
+# zapis typu: 50-tych, 20-te
+# moze_interp(dig>+ dywiz> suf_ord)
+
+# zapis łączny: tymbardziej, tymładniej
+moze_interp(tym)
+moze_interp(bardziej)
+moze_interp(niemniej)
+# moze_interp(tym bardziej)
+# moze_interp(tym niemniej)
+# moze_interp(tym adj_com) !weak
+
+# ‹na pewno› zapisane łącznie
+# moze_interp(prep_na pewno) !weak
+
+[segment types]
+nie
+prefs
+prefa
+pref_dyw
+prefppas
+ppas
+li
+li_tylko
+sufs
+suf_num
+suf_ord
+dywiz
+pauza
+polpauza
+kropka
+przecinek
+apostrof
+adj_anty_zloz
+subst_anty_zloz
+fin_perf
+fin_imperf
+pcon
+pant
+wlasne
+etnonimy
+nazwiska
+czlonynazwisk
+geograficzne
+subst
+ger
+depr
+pact
+inf_imperf
+praet_imperf
+imps_imperf
+ze
+z
+dig
+romandigI
+romandigV
+romandigX
+romandigL
+romandigC
+romandigD
+romandigM
+liczba_rzymska
+adja
+pacta
+adjp
+adj_pos
+adj_com
+adj_sup
+adv_pos
+adv_com
+adv_ndm
+tym
+bardziej
+niemniej
+pewno
+negat
+samotny
+miary
+interp
+aglsg1_wok
+aglsg2_wok
+aglpl1_wok
+aglpl2_wok
+aglsg1_nwok
+aglsg2_nwok
+aglpl1_nwok
+aglpl2_nwok
+z_aglt
+z_aglt_by
+z_aglt_nwok
+z_aglt_nwok2
+ja
+ty
+my
+wy
+wszyscy
+by
+praetaglt
+praetcond
+praet_sg_agl
+praet_sg_nagl
+praet_sg_masc
+praet_sg_nmasc
+praet_pl
+impt_sg_perf
+impt_sg_imperf
+impt_pl_perf
+impt_pl_imperf
+pol_zloz
+num_zloz
+i
+n
+prep_n
+prep_na
+emo
+pred
+brev_pun
+brev_npun
+samodz
+
+
+[tags]
+prefs	prefs
+prefa	prefa
+#prefppas	prefppas
+dig	dig
+adja	adja
+pacta	pacta
+adjp	adjp
+adj_pos	adj:%:pos
+adv_pos	adv:pos
+adj_sup	adj:%:sup
+adj_sup	adv:sup
+adj_com	adj:%:com
+adv_com	adv:com
+adv_ndm	adv
+negat	ger:%:neg
+negat	pact:%:neg
+negat	ppas:%:neg
+brev_pun	brev:pun
+brev_npun	brev:npun
+# samotny	interj
+samotny	emo
+aglsg1_wok	aglt:sg:pri:%:wok
+aglpl1_wok	aglt:pl:pri:%:wok
+aglsg1_nwok	aglt:sg:pri:%:nwok
+aglpl1_nwok	aglt:pl:pri:%:nwok
+aglsg2_wok	aglt:sg:sec:%:wok
+aglpl2_wok	aglt:pl:sec:%:wok
+aglsg2_nwok	aglt:sg:sec:%:nwok
+aglpl2_nwok	aglt:pl:sec:%:nwok
+praetaglt	praet:%:pri:%
+praetaglt	praet:%:sec:%
+praetaglt	praet:%:ter:%
+praet_sg_agl	praet:sg:%:agl
+praet_sg_nagl	praet:sg:%:nagl
+praet_sg_masc	praet:sg:m1.m2.m3:%
+praet_sg_nmasc	praet:sg:f:%
+praet_sg_nmasc	praet:sg:n1.n2:%
+praet_pl	praet:pl:%
+praetaglt	winien:%:pri:%
+praetaglt	winien:%:sec:%
+praetaglt	winien:%:ter:%
+praet_sg_masc	winien:sg:m1.m2.m3:%
+praet_sg_nmasc	winien:sg:f:%
+praet_sg_nmasc	winien:sg:n1.n2:%
+praet_pl	winien:pl:%
+praetcond	cond:%
+fin_perf	fin:%:perf
+fin_imperf	fin:%:imperf
+pcon		pcon:%
+pant		pant:%
+wlasne		subst:%	name=imię
+nazwiska	subst:%	name=nazwisko
+geograficzne	subst:%	name=geograficzna
+wlasne		subst:%	name=budowla
+wlasne		subst:%	name=firma
+wlasne		subst:%	name=instytucja
+wlasne		subst:%	name=marka
+wlasne		subst:%	name=oprogramowanie
+wlasne		subst:%	name=organizacja
+wlasne		subst:%	name=patronimicum
+wlasne		subst:%	name=przydomek
+wlasne		subst:%	name=pseudonim
+wlasne		subst:%	name=święto
+wlasne		subst:%	name=tytuł
+wlasne		subst:%	name=własna
+wlasne		subst:%	name=osoba
+wlasne		subst:%	name=członek_rodu
+czlonynazwisk	subst:%	name=człon_nazwiska
+czlonynazwisk	subst:%	name=człon_nazwiska_(herb)
+wlasne		subst:%	name=człon_nazwy_firmy
+wlasne		subst:%	name=język_programowania
+wlasne		subst:%	name=krój_pisma
+wlasne		subst:%	name=środek_lokomocji
+etnonimy	subst:%	labels=etn.
+subst		subst:%
+ger		ger:%
+depr		depr:%
+ppas		ppas:%
+pact		pact:%
+praet_imperf	praet:%:imperf
+inf_imperf	inf:imperf
+imps_imperf	imps:imperf
+impt_sg_imperf	impt:sg:%:imperf
+impt_sg_perf	impt:sg:%:perf
+impt_pl_imperf	impt:pl:%:imperf
+impt_pl_perf	impt:pl:%:perf
+num_zloz	num:comp
+prep_n		prep:%:wok
+pred		pred
+interp		interp
+samodz		%
+
+[lexemes]
+tym	tym	adv
+bardziej	bardziej	adv
+niemniej	niemniej	qub
+pewno	pewno	qub
+pol_zloz	pół	num:comp
+i	i	conj
+by	by	qub
+li	li	qub	labels=przest.
+li_tylko	li	qub	labels=przest._dziś_książk.
+ze	+że	qub
+z	+ż	qub
+nie	nie	qub
+z_aglt	bowiem	comp
+z_aglt	iż	comp
+z_aglt	cóż	subst:%
+z_aglt	gdzież	adv
+z_aglt	któż	subst:%
+z_aglt	czyż	qub
+z_aglt	alboż	qub
+z_aglt	ależ	qub
+z_aglt	azaliż	qub
+z_aglt	czyliż	qub
+z_aglt	czyż	qub
+z_aglt	jakżeż	qub
+z_aglt	zaliż	qub
+z_aglt	już	qub
+z_aglt	skąd	adv
+z_aglt	tak	adv:%
+z_aglt_by	aby	comp
+z_aglt_by	by	comp
+z_aglt_by	choćby	comp
+z_aglt_by	chociażby	comp
+z_aglt_by	iżby	comp
+z_aglt_by	gdyby	comp
+z_aglt_by	jakby	comp
+z_aglt_by	jakoby	comp
+z_aglt_by	żeby	comp
+z_aglt_by	ażeby	comp
+z_aglt_by	jeżeliby	comp
+z_aglt_by	jeśliby	comp
+z_aglt_by	byleby	comp
+z_aglt_by	kieby	comp
+z_aglt_by	oby	qub
+z_aglt_by	bodajby	qub
+z_aglt_by	czyżby	qub
+z_aglt_nwok	czemu	adv
+z_aglt_nwok	jeszcze	qub
+z_aglt_nwok	gdzie	adv
+z_aglt_nwok	gdzie	qub
+z_aglt_nwok	dopóty	conj
+z_aglt_nwok	dopóki	comp
+z_aglt_nwok	skoro	comp
+z_aglt_nwok	dlaczego	adv
+z_aglt_nwok	zali	qub
+z_aglt_nwok	azali	qub
+z_aglt_nwok	albo	qub
+z_aglt_nwok	czyli	qub
+z_aglt_nwok	ale	qub
+z_aglt_nwok	ale	conj
+z_aglt_nwok	kiedy	adv
+z_aglt_nwok	kiedy	comp
+z_aglt_nwok	tylko	qub
+z_aglt_nwok	to	conj
+z_aglt_nwok	chyba	qub
+z_aglt_nwok	czy	qub
+z_aglt_nwok	co	comp
+z_aglt_nwok	bo	comp
+z_aglt_nwok	byle	comp
+# z_aglt_nwok2 jest po to, żeby niektóre jednostki (np. partykułowe ‹że› typu: 
+# „Ty żeś to powiedział”) łączyły się tylko z aglutynantem, ale nie z ‹by›.
+z_aglt_nwok2	że	qub
+z_aglt_nwok2	że	comp
+z_aglt_nwok2	co	subst:%
+z_aglt_nwok2	kto	subst:%
+z_aglt_nwok2	gdy	adv
+z_aglt_nwok2	wcale	adv
+dywiz	-	interp
+pauza	—	interp
+polpauza	–	interp
+kropka	.	interp
+przecinek	,	interp
+apostrof	'	interp
+n	on	ppron3:sg:gen.acc:m1.m2.m3:ter:nakc:praep
+adj_anty_zloz	ten	adj:%
+adj_anty_zloz	tenże	adj:%
+adj_anty_zloz	ck	adj:%
+adj_anty_zloz	c.k.	adj:%
+adj_anty_zloz	ki	adj:%
+adj_anty_zloz	si	adj:%
+adj_anty_zloz	ow	adj:%
+adj_anty_zloz	ów	adj:%
+adj_anty_zloz	ówże	adj:%
+adj_anty_zloz	mój	adj:%
+adj_anty_zloz	a-z	adj:%
+adj_anty_zloz	a-ż	adj:%
+adj_anty_zloz	kiż	adj:%
+adj_anty_zloz	be	adj:%
+adj_anty_zloz	caca	adj:%
+adj_anty_zloz	czyj	adj:%
+adj_anty_zloz	oboj	adj:%
+adj_anty_zloz	on	adj:%
+adj_anty_zloz	tyli	adj:%
+adj_anty_zloz	rany	adj:%
+adj_anty_zloz	taki	adj:%
+adj_anty_zloz	pop	adj:%
+adj_anty_zloz	umowy	adj:%
+subst_anty_zloz	co	subst:%
+subst_anty_zloz	ar	subst:%:m3
+subst_anty_zloz	as	subst:%:m2
+subst_anty_zloz	as	subst:%:m1
+subst_anty_zloz	as	subst:%:m2
+subst_anty_zloz	as	subst:%:m3
+subst_anty_zloz	as	subst:%:n2
+subst_anty_zloz	at	subst:%:n2
+subst_anty_zloz	at	subst:%:m2
+subst_anty_zloz	az	subst:%:m1
+subst_anty_zloz	be	subst:%:n2
+subst_anty_zloz	bp	subst:%:m1
+subst_anty_zloz	ce	subst:%:n2
+subst_anty_zloz	de	subst:%:n2
+subst_anty_zloz	do	subst:%:n2
+subst_anty_zloz	dr	subst:%:m1
+subst_anty_zloz	ef	subst:%:n2
+subst_anty_zloz	el	subst:%:n2
+subst_anty_zloz	em	subst:%:n2
+subst_anty_zloz	en	subst:%:n2
+subst_anty_zloz	er	subst:%:n2
+subst_anty_zloz	es	subst:%:m3
+subst_anty_zloz	es	subst:%:n2
+subst_anty_zloz	fa	subst:%:n2
+subst_anty_zloz	go	subst:%:n2
+subst_anty_zloz	ha	subst:%:n2
+subst_anty_zloz	id	subst:%:m3
+subst_anty_zloz	id	subst:%:n2
+subst_anty_zloz	in	subst:%:n2
+subst_anty_zloz	ka	subst:%:n2
+subst_anty_zloz	kb	subst:%:m3
+subst_anty_zloz	km	subst:%:m3
+subst_anty_zloz	ku	subst:%:n2
+subst_anty_zloz	la	subst:%:n2
+subst_anty_zloz	li	subst:%:n2
+subst_anty_zloz	li	subst:%:f
+subst_anty_zloz	mi	subst:%:n2
+subst_anty_zloz	ni	subst:%:n2
+subst_anty_zloz	no	subst:%:n2
+subst_anty_zloz	nr	subst:%:m3
+subst_anty_zloz	om	subst:%:m3
+subst_anty_zloz	oz	subst:%:m3
+subst_anty_zloz	pe	subst:%:n2
+subst_anty_zloz	pi	subst:%:n2
+subst_anty_zloz	re	subst:%:n2
+subst_anty_zloz	rh	subst:%:n2
+subst_anty_zloz	ro	subst:%:n2
+subst_anty_zloz	si	subst:%:n2
+subst_anty_zloz	su	subst:%:n2
+subst_anty_zloz	te	subst:%:n2
+subst_anty_zloz	tv	subst:%:f
+subst_anty_zloz	ud	subst:%:m3
+subst_anty_zloz	uf	subst:%:m3
+subst_anty_zloz	ul	subst:%:m3
+subst_anty_zloz	um	subst:%:m3
+subst_anty_zloz	ut	subst:%:n2
+subst_anty_zloz	vw	subst:%:m3
+subst_anty_zloz	vw	subst:%:n2
+subst_anty_zloz	wc	subst:%:n2
+subst_anty_zloz	we	subst:%:n2
+subst_anty_zloz	wf	subst:%:m3
+subst_anty_zloz	wu	subst:%:n2
+##################################
+#        Skrótowce ndm           #
+##################################
+subst_anty_zloz	AAP	subst:%:f
+subst_anty_zloz	AA	subst:%:m3
+subst_anty_zloz	AA	subst:%:n2
+subst_anty_zloz	AA	subst:%:p1
+subst_anty_zloz	ABBA	subst:%:f
+subst_anty_zloz	ABB	subst:%:f
+subst_anty_zloz	ABB	subst:%:n2
+subst_anty_zloz	ABC	subst:%:n2
+subst_anty_zloz	ABS	subst:%:m3
+subst_anty_zloz	AC	subst:%:n2
+subst_anty_zloz	ADM	subst:%:f
+subst_anty_zloz	ADM	subst:%:m3
+subst_anty_zloz	ADN	subst:%:f
+subst_anty_zloz	ADN	subst:%:m3
+subst_anty_zloz	ADP	subst:%:m3
+subst_anty_zloz	ADP	subst:%:n2
+subst_anty_zloz	AFP	subst:%:f
+subst_anty_zloz	AFP	subst:%:n2
+subst_anty_zloz	AF	subst:%:f
+subst_anty_zloz	AF	subst:%:m3
+subst_anty_zloz	AGD	subst:%:p3
+subst_anty_zloz	AGH	subst:%:f
+subst_anty_zloz	AGH	subst:%:n2
+subst_anty_zloz	AIDS	subst:%:m2
+subst_anty_zloz	AIDS	subst:%:m3
+subst_anty_zloz	AIDS	subst:%:n2
+subst_anty_zloz	AIF	subst:%:f
+subst_anty_zloz	AIF	subst:%:m3
+subst_anty_zloz	AI	subst:%:f
+subst_anty_zloz	AI	subst:%:n2
+subst_anty_zloz	AK	subst:%:f
+subst_anty_zloz	AK	subst:%:n2
+subst_anty_zloz	AL	subst:%:f
+subst_anty_zloz	AL	subst:%:m3
+subst_anty_zloz	AL	subst:%:n2
+subst_anty_zloz	AMERBANK	subst:%:m3
+subst_anty_zloz	AM	subst:%:f
+subst_anty_zloz	AM	subst:%:m3
+subst_anty_zloz	ANSA	subst:%:f
+subst_anty_zloz	ANSI	subst:%:m3
+subst_anty_zloz	ANSI	subst:%:n2
+subst_anty_zloz	ANS	subst:%:f
+subst_anty_zloz	AON	subst:%:f
+subst_anty_zloz	AON	subst:%:m3
+subst_anty_zloz	APA	subst:%:f
+subst_anty_zloz	API	subst:%:m3
+subst_anty_zloz	APS	subst:%:m3
+subst_anty_zloz	AP	subst:%:f
+subst_anty_zloz	AP	subst:%:n2
+subst_anty_zloz	AR	subst:%:f
+subst_anty_zloz	AR	subst:%:m3
+subst_anty_zloz	ASCII	subst:%:m3
+subst_anty_zloz	ASEAN	subst:%:m3
+subst_anty_zloz	ASP	subst:%:f
+subst_anty_zloz	ASR	subst:%:m3
+subst_anty_zloz	ATK	subst:%:f
+subst_anty_zloz	ATK	subst:%:n2
+subst_anty_zloz	ATP	subst:%:m3
+subst_anty_zloz	ATP	subst:%:n2
+subst_anty_zloz	ATT	subst:%:n2
+subst_anty_zloz	AWF	subst:%:m3
+subst_anty_zloz	AWS	subst:%:m3
+subst_anty_zloz	AZS	subst:%:m3
+subst_anty_zloz	BAAS	subst:%:f
+subst_anty_zloz	BAAS	subst:%:m3
+subst_anty_zloz	BASF	subst:%:f
+subst_anty_zloz	BASF	subst:%:m3
+subst_anty_zloz	BA	subst:%:n2
+subst_anty_zloz	BAV	subst:%:f
+subst_anty_zloz	BAV	subst:%:m3
+subst_anty_zloz	BBC	subst:%:n2
+subst_anty_zloz	BBK	subst:%:m3
+subst_anty_zloz	BBK	subst:%:n2
+subst_anty_zloz	BBWR	subst:%:m3
+subst_anty_zloz	BCG	subst:%:f
+subst_anty_zloz	BCG	subst:%:n2
+subst_anty_zloz	BC	subst:%:m3
+subst_anty_zloz	BDK	subst:%:m3
+subst_anty_zloz	BERD	subst:%:m3
+subst_anty_zloz	BFG	subst:%:m3
+subst_anty_zloz	BFG	subst:%:n2
+subst_anty_zloz	BGK	subst:%:m3
+subst_anty_zloz	BGK	subst:%:n2
+subst_anty_zloz	BG	subst:%:m3
+subst_anty_zloz	BG	subst:%:n2
+subst_anty_zloz	BGW	subst:%:n2
+subst_anty_zloz	BHK	subst:%:m3
+subst_anty_zloz	BHK	subst:%:n2
+subst_anty_zloz	BHP	subst:%:n2
+subst_anty_zloz	BH	subst:%:m3
+subst_anty_zloz	BH	subst:%:n2
+subst_anty_zloz	BIG	subst:%:m3
+subst_anty_zloz	BIOS	subst:%:m3
+subst_anty_zloz	BISE	subst:%:m3
+subst_anty_zloz	BISE	subst:%:n2
+subst_anty_zloz	BJ	subst:%:f
+subst_anty_zloz	BJ	subst:%:m3
+subst_anty_zloz	BMW	subst:%:m3
+subst_anty_zloz	BMW	subst:%:n2
+subst_anty_zloz	BN	subst:%:m3
+subst_anty_zloz	BOR	subst:%:m3
+subst_anty_zloz	BOS	subst:%:m3
+subst_anty_zloz	BOS	subst:%:n2
+subst_anty_zloz	BPH	subst:%:m3
+subst_anty_zloz	BPH	subst:%:n2
+subst_anty_zloz	BPS	subst:%:m3
+subst_anty_zloz	BP	subst:%:f
+subst_anty_zloz	BP	subst:%:m3
+subst_anty_zloz	BP	subst:%:n2
+subst_anty_zloz	BRBM	subst:%:m3
+subst_anty_zloz	BRE	subst:%:m3
+subst_anty_zloz	BRE	subst:%:n2
+subst_anty_zloz	BRR	subst:%:m3
+subst_anty_zloz	BR	subst:%:m3
+subst_anty_zloz	BSA	subst:%:n2
+subst_anty_zloz	BSE	subst:%:n2
+subst_anty_zloz	BSK	subst:%:m3
+subst_anty_zloz	BSK	subst:%:n2
+subst_anty_zloz	BSP	subst:%:f
+subst_anty_zloz	BSP	subst:%:m3
+subst_anty_zloz	BSP	subst:%:n2
+subst_anty_zloz	BSR	subst:%:m3
+subst_anty_zloz	BS	subst:%:m3
+subst_anty_zloz	BUW	subst:%:f
+subst_anty_zloz	BUW	subst:%:m3
+subst_anty_zloz	BWE	subst:%:m3
+subst_anty_zloz	BWE	subst:%:n2
+subst_anty_zloz	BW	subst:%:m3
+subst_anty_zloz	BW	subst:%:n2
+subst_anty_zloz	BWZ	subst:%:m3
+subst_anty_zloz	BWZ	subst:%:n2
+subst_anty_zloz	BZ	subst:%:m3
+subst_anty_zloz	CAD	subst:%:m3
+subst_anty_zloz	CAF	subst:%:m3
+subst_anty_zloz	CAM	subst:%:m3
+subst_anty_zloz	CBOS	subst:%:m3
+subst_anty_zloz	CBOS	subst:%:n2
+subst_anty_zloz	CBS	subst:%:m3
+subst_anty_zloz	CBS	subst:%:n2
+subst_anty_zloz	CD	subst:%:m3
+subst_anty_zloz	CD	subst:%:n2
+subst_anty_zloz	CDU	subst:%:f
+subst_anty_zloz	CDU	subst:%:n2
+subst_anty_zloz	CEFTA	subst:%:f
+subst_anty_zloz	CEFT	subst:%:f
+subst_anty_zloz	CFC	subst:%:m3
+subst_anty_zloz	CFC	subst:%:n2
+subst_anty_zloz	CGS	subst:%:n2
+subst_anty_zloz	CIA	subst:%:f
+subst_anty_zloz	CIA	subst:%:n2
+subst_anty_zloz	CINTE	subst:%:n2
+subst_anty_zloz	CIT	subst:%:m3
+subst_anty_zloz	CK	subst:%:m3
+subst_anty_zloz	CKU	subst:%:n2
+subst_anty_zloz	CMYK	subst:%:m2
+subst_anty_zloz	CNN	subst:%:f
+subst_anty_zloz	CNN	subst:%:m3
+subst_anty_zloz	COCOM	subst:%:m3
+subst_anty_zloz	CO	subst:%:n2
+subst_anty_zloz	CPN	subst:%:f
+subst_anty_zloz	CPN	subst:%:m3
+subst_anty_zloz	CPU	subst:%:n2
+subst_anty_zloz	CRZZ	subst:%:m3
+subst_anty_zloz	C	subst:%:m3
+subst_anty_zloz	C	subst:%:n2
+subst_anty_zloz	CSU	subst:%:f
+subst_anty_zloz	CSU	subst:%:n2
+subst_anty_zloz	CTV	subst:%:f
+subst_anty_zloz	CV	subst:%:n2
+subst_anty_zloz	CWKS	subst:%:m3
+subst_anty_zloz	CZD	subst:%:n2
+subst_anty_zloz	CZMP	subst:%:n2
+subst_anty_zloz	DAB	subst:%:m3
+subst_anty_zloz	DAT	subst:%:m3
+subst_anty_zloz	DBG	subst:%:m3
+subst_anty_zloz	DBG	subst:%:n2
+subst_anty_zloz	DBP	subst:%:m3
+subst_anty_zloz	DBP	subst:%:n2
+subst_anty_zloz	DDT	subst:%:m3
+subst_anty_zloz	DDT	subst:%:n2
+subst_anty_zloz	DHL	subst:%:m3
+subst_anty_zloz	DJ	subst:%:m1
+subst_anty_zloz	DLS	subst:%:m3
+subst_anty_zloz	DM	subst:%:m3
+subst_anty_zloz	DNA	subst:%:m3
+subst_anty_zloz	DNA	subst:%:n2
+subst_anty_zloz	DOKP	subst:%:f
+subst_anty_zloz	DOKP	subst:%:n2
+subst_anty_zloz	DOS	subst:%:m2
+subst_anty_zloz	DOS	subst:%:m3
+subst_anty_zloz	DPA	subst:%:f
+subst_anty_zloz	DPA	subst:%:n2
+subst_anty_zloz	DS	subst:%:m3
+subst_anty_zloz	DTP	subst:%:n2
+subst_anty_zloz	DTV	subst:%:m3
+subst_anty_zloz	DVD	subst:%:n2
+subst_anty_zloz	EBI	subst:%:m3
+subst_anty_zloz	EBOR	subst:%:m3
+subst_anty_zloz	EBU	subst:%:n2
+subst_anty_zloz	ECU	subst:%:n2
+subst_anty_zloz	EEG	subst:%:n2
+subst_anty_zloz	EFTA	subst:%:f
+subst_anty_zloz	EFT	subst:%:f
+subst_anty_zloz	EKG	subst:%:n2
+subst_anty_zloz	ELTA	subst:%:f
+subst_anty_zloz	ELT	subst:%:f
+subst_anty_zloz	EMG	subst:%:n2
+subst_anty_zloz	ENEA	subst:%:f
+subst_anty_zloz	EPA	subst:%:f
+subst_anty_zloz	EPA	subst:%:n2
+subst_anty_zloz	EPROM	subst:%:m3
+subst_anty_zloz	EP	subst:%:m3
+subst_anty_zloz	EP	subst:%:n2
+subst_anty_zloz	ERM	subst:%:m3
+subst_anty_zloz	ESOP	subst:%:m3
+subst_anty_zloz	ETA	subst:%:f
+subst_anty_zloz	ET	subst:%:f
+subst_anty_zloz	EUROPOL	subst:%:m3
+subst_anty_zloz	EUROPOL	subst:%:n2
+subst_anty_zloz	EWG	subst:%:f
+subst_anty_zloz	EWG	subst:%:n2
+subst_anty_zloz	FADOM	subst:%:m3
+subst_anty_zloz	FAMA	subst:%:f
+subst_anty_zloz	FAM	subst:%:f
+subst_anty_zloz	FAO	subst:%:f
+subst_anty_zloz	FAO	subst:%:n2
+subst_anty_zloz	FAS	subst:%:m3
+subst_anty_zloz	FATAH	subst:%:m3
+subst_anty_zloz	FAT	subst:%:m3
+subst_anty_zloz	FBI	subst:%:n2
+subst_anty_zloz	FC	subst:%:m3
+subst_anty_zloz	FC	subst:%:n2
+subst_anty_zloz	FDD	subst:%:m3
+subst_anty_zloz	FDD	subst:%:n2
+subst_anty_zloz	FDP	subst:%:f
+subst_anty_zloz	FDP	subst:%:n2
+subst_anty_zloz	FIDE	subst:%:f
+subst_anty_zloz	FIFA	subst:%:f
+subst_anty_zloz	FIFA	subst:%:n2
+subst_anty_zloz	FIF	subst:%:f
+subst_anty_zloz	FK	subst:%:f
+subst_anty_zloz	FN	subst:%:m3
+subst_anty_zloz	FN	subst:%:n2
+subst_anty_zloz	FOZZ	subst:%:m3
+subst_anty_zloz	FSM	subst:%:m3
+subst_anty_zloz	FSO	subst:%:f
+subst_anty_zloz	FSO	subst:%:n2
+subst_anty_zloz	FTP	subst:%:n2
+subst_anty_zloz	GATT	subst:%:m3
+subst_anty_zloz	GATT	subst:%:n2
+subst_anty_zloz	GBGK	subst:%:m3
+subst_anty_zloz	GBH	subst:%:m3
+subst_anty_zloz	GBW	subst:%:m3
+subst_anty_zloz	GBW	subst:%:n2
+subst_anty_zloz	GIODO	subst:%:m3
+subst_anty_zloz	GKS	subst:%:m3
+subst_anty_zloz	GL	subst:%:f
+subst_anty_zloz	GL	subst:%:m3
+subst_anty_zloz	GMC	subst:%:n2
+subst_anty_zloz	GM	subst:%:m3
+subst_anty_zloz	GOPR	subst:%:m3
+subst_anty_zloz	GPRS	subst:%:m3
+subst_anty_zloz	GPS	subst:%:m3
+subst_anty_zloz	GPU	subst:%:n2
+subst_anty_zloz	GSM	subst:%:m3
+subst_anty_zloz	GS	subst:%:m3
+subst_anty_zloz	GUC	subst:%:m3
+subst_anty_zloz	GUS	subst:%:m3
+subst_anty_zloz	HBO	subst:%:n2
+subst_anty_zloz	HB	subst:%:m3
+subst_anty_zloz	HDD	subst:%:m3
+subst_anty_zloz	HDD	subst:%:n2
+subst_anty_zloz	HDL	subst:%:m3
+subst_anty_zloz	HDZ	subst:%:f
+subst_anty_zloz	HDZ	subst:%:m3
+subst_anty_zloz	HIV	subst:%:m2
+subst_anty_zloz	HIV	subst:%:m3
+subst_anty_zloz	HIV	subst:%:n2
+subst_anty_zloz	HP	subst:%:m3
+subst_anty_zloz	HP	subst:%:n2
+subst_anty_zloz	HSP	subst:%:m3
+subst_anty_zloz	HTML	subst:%:m2
+subst_anty_zloz	HTML	subst:%:m3
+subst_anty_zloz	HTTP	subst:%:m3
+subst_anty_zloz	IBL	subst:%:m3
+subst_anty_zloz	IBM	subst:%:m3
+subst_anty_zloz	IBM	subst:%:n2
+subst_anty_zloz	ICJ	subst:%:m3
+subst_anty_zloz	IDE	subst:%:m3
+subst_anty_zloz	IDE	subst:%:n2
+subst_anty_zloz	IFOR	subst:%:m3
+subst_anty_zloz	IKEA	subst:%:f
+subst_anty_zloz	INA	subst:%:f
+subst_anty_zloz	IPN	subst:%:m3
+subst_anty_zloz	IP	subst:%:m3
+subst_anty_zloz	IP	subst:%:n2
+subst_anty_zloz	IQ	subst:%:m3
+subst_anty_zloz	IQ	subst:%:n2
+subst_anty_zloz	IRA	subst:%:f
+subst_anty_zloz	ISBN	subst:%:m3
+subst_anty_zloz	ISDN	subst:%:m3
+subst_anty_zloz	ISO	subst:%:f
+subst_anty_zloz	ISO	subst:%:n2
+subst_anty_zloz	ISSN	subst:%:m3
+subst_anty_zloz	IS	subst:%:m3
+subst_anty_zloz	IS	subst:%:n2
+subst_anty_zloz	ITI	subst:%:m3
+subst_anty_zloz	ITI	subst:%:n2
+subst_anty_zloz	JAL	subst:%:m3
+subst_anty_zloz	JANA	subst:%:f
+subst_anty_zloz	KAI	subst:%:f
+subst_anty_zloz	KAI	subst:%:m3
+subst_anty_zloz	KAL	subst:%:m3
+subst_anty_zloz	KBN	subst:%:m3
+subst_anty_zloz	KBWE	subst:%:f
+subst_anty_zloz	KBWE	subst:%:n2
+subst_anty_zloz	KBW	subst:%:m3
+subst_anty_zloz	KBW	subst:%:n2
+subst_anty_zloz	KC	subst:%:m3
+subst_anty_zloz	KC	subst:%:n2
+subst_anty_zloz	KEN	subst:%:f
+subst_anty_zloz	KEN	subst:%:m3
+subst_anty_zloz	KEP	subst:%:f
+subst_anty_zloz	KEP	subst:%:m3
+subst_anty_zloz	KERM	subst:%:m3
+subst_anty_zloz	KE	subst:%:f
+subst_anty_zloz	KGB	subst:%:m3
+subst_anty_zloz	KGB	subst:%:n2
+subst_anty_zloz	KGHM	subst:%:m3
+subst_anty_zloz	KG	subst:%:f
+subst_anty_zloz	KG	subst:%:n2
+subst_anty_zloz	KKO	subst:%:f
+subst_anty_zloz	KKO	subst:%:m3
+subst_anty_zloz	KKO	subst:%:n2
+subst_anty_zloz	KLD	subst:%:m3
+subst_anty_zloz	KLD	subst:%:n2
+subst_anty_zloz	KLM	subst:%:m3
+subst_anty_zloz	KM	subst:%:f
+subst_anty_zloz	KM	subst:%:m3
+subst_anty_zloz	KNA	subst:%:f
+subst_anty_zloz	KOR	subst:%:m3
+subst_anty_zloz	KPN	subst:%:m3
+subst_anty_zloz	KPP	subst:%:f
+subst_anty_zloz	KPP	subst:%:n2
+subst_anty_zloz	KP	subst:%:m3
+subst_anty_zloz	KPZR	subst:%:f
+subst_anty_zloz	KPZR	subst:%:m3
+subst_anty_zloz	KRLD	subst:%:f
+subst_anty_zloz	KRLD	subst:%:n2
+subst_anty_zloz	KRN	subst:%:f
+subst_anty_zloz	KRN	subst:%:m3
+subst_anty_zloz	KRO	subst:%:f
+subst_anty_zloz	KRO	subst:%:n2
+subst_anty_zloz	KRS	subst:%:f
+subst_anty_zloz	KRS	subst:%:m3
+subst_anty_zloz	KRUS	subst:%:f
+subst_anty_zloz	KRUS	subst:%:m3
+subst_anty_zloz	KSAP	subst:%:f
+subst_anty_zloz	KSAP	subst:%:m3
+subst_anty_zloz	KSERM	subst:%:m3
+subst_anty_zloz	KUL	subst:%:m3
+subst_anty_zloz	KWP	subst:%:f
+subst_anty_zloz	KWP	subst:%:n2
+subst_anty_zloz	KW	subst:%:f
+subst_anty_zloz	KW	subst:%:m3
+subst_anty_zloz	KW	subst:%:n2
+subst_anty_zloz	LAN	subst:%:m3
+subst_anty_zloz	LCD	subst:%:m3
+subst_anty_zloz	LCD	subst:%:n2
+subst_anty_zloz	LC	subst:%:n2
+subst_anty_zloz	LDL	subst:%:m3
+subst_anty_zloz	LE	subst:%:n2
+subst_anty_zloz	LETTA	subst:%:f
+subst_anty_zloz	LETT	subst:%:f
+subst_anty_zloz	LH	subst:%:n2
+subst_anty_zloz	LN	subst:%:f
+subst_anty_zloz	LN	subst:%:m3
+subst_anty_zloz	LOK	subst:%:f
+subst_anty_zloz	LOK	subst:%:m3
+subst_anty_zloz	LOP	subst:%:f
+subst_anty_zloz	LOP	subst:%:m3
+subst_anty_zloz	LO	subst:%:n2
+subst_anty_zloz	LOT	subst:%:m3
+subst_anty_zloz	LPR	subst:%:f
+subst_anty_zloz	LPR	subst:%:m3
+subst_anty_zloz	LP	subst:%:n2
+subst_anty_zloz	LP	subst:%:p3
+subst_anty_zloz	LR	subst:%:m3
+subst_anty_zloz	LSD	subst:%:n2
+subst_anty_zloz	LZS	subst:%:m3
+subst_anty_zloz	LZS	subst:%:p3
+subst_anty_zloz	LZ	subst:%:n2
+subst_anty_zloz	MAL	subst:%:m3
+subst_anty_zloz	MB	subst:%:m3
+subst_anty_zloz	MB	subst:%:n2
+subst_anty_zloz	MCK	subst:%:m3
+subst_anty_zloz	MDK	subst:%:m3
+subst_anty_zloz	MDM	subst:%:m3
+subst_anty_zloz	MENA	subst:%:f
+subst_anty_zloz	MEN	subst:%:f
+subst_anty_zloz	MEN	subst:%:m3
+subst_anty_zloz	MEP	subst:%:f
+subst_anty_zloz	MEP	subst:%:m3
+subst_anty_zloz	MF	subst:%:m3
+subst_anty_zloz	MFW	subst:%:m3
+subst_anty_zloz	MFW	subst:%:n2
+subst_anty_zloz	MGM	subst:%:f
+subst_anty_zloz	MGM	subst:%:m3
+subst_anty_zloz	MG	subst:%:m3
+subst_anty_zloz	MG	subst:%:n2
+subst_anty_zloz	MKS	subst:%:m3
+subst_anty_zloz	MN	subst:%:m3
+subst_anty_zloz	MN	subst:%:n2
+subst_anty_zloz	MOK	subst:%:m3
+subst_anty_zloz	MON	subst:%:m3
+subst_anty_zloz	MOP	subst:%:f
+subst_anty_zloz	MOP	subst:%:m3
+subst_anty_zloz	MO	subst:%:f
+subst_anty_zloz	MO	subst:%:n2
+subst_anty_zloz	MPK	subst:%:n2
+subst_anty_zloz	MPO	subst:%:n2
+subst_anty_zloz	MP	subst:%:m3
+subst_anty_zloz	MP	subst:%:n2
+subst_anty_zloz	MPW	subst:%:n2
+subst_anty_zloz	MRR	subst:%:m3
+subst_anty_zloz	MRR	subst:%:n2
+subst_anty_zloz	MSP	subst:%:n2
+subst_anty_zloz	MS	subst:%:m3
+subst_anty_zloz	MS	subst:%:n2
+subst_anty_zloz	MSW	subst:%:m3
+subst_anty_zloz	MSW	subst:%:n2
+subst_anty_zloz	MSZ	subst:%:m3
+subst_anty_zloz	MTP	subst:%:p3
+subst_anty_zloz	MTS	subst:%:m3
+subst_anty_zloz	MT	subst:%:n2
+subst_anty_zloz	MTV	subst:%:f
+subst_anty_zloz	MW	subst:%:f
+subst_anty_zloz	MZK	subst:%:n2
+subst_anty_zloz	MZ	subst:%:m3
+subst_anty_zloz	MZ	subst:%:n2
+subst_anty_zloz	NAFTA	subst:%:f
+subst_anty_zloz	NAFT	subst:%:f
+subst_anty_zloz	NAP	subst:%:f
+subst_anty_zloz	NAP	subst:%:m3
+subst_anty_zloz	NASA	subst:%:f
+subst_anty_zloz	NASK	subst:%:m3
+subst_anty_zloz	NAS	subst:%:f
+subst_anty_zloz	NATO	subst:%:f
+subst_anty_zloz	NATO	subst:%:n2
+subst_anty_zloz	NBA	subst:%:n2
+subst_anty_zloz	NBC	subst:%:n2
+subst_anty_zloz	NBP	subst:%:m3
+subst_anty_zloz	NBP	subst:%:n2
+subst_anty_zloz	NCL	subst:%:f
+subst_anty_zloz	NCL	subst:%:m3
+subst_anty_zloz	ND	subst:%:f
+subst_anty_zloz	ND	subst:%:n2
+subst_anty_zloz	NEC	subst:%:m3
+subst_anty_zloz	NEP	subst:%:m3
+subst_anty_zloz	NFI	subst:%:m3
+subst_anty_zloz	NFI	subst:%:n2
+subst_anty_zloz	NHL	subst:%:m3
+subst_anty_zloz	NIK	subst:%:m3
+subst_anty_zloz	NIP	subst:%:m3
+subst_anty_zloz	NKWD	subst:%:n2
+subst_anty_zloz	NMT	subst:%:m3
+subst_anty_zloz	NOT	subst:%:m3
+subst_anty_zloz	NPD	subst:%:f
+subst_anty_zloz	NPD	subst:%:n2
+subst_anty_zloz	NRA	subst:%:f
+subst_anty_zloz	NRD	subst:%:f
+subst_anty_zloz	NRD	subst:%:n2
+subst_anty_zloz	NRF	subst:%:f
+subst_anty_zloz	NRF	subst:%:m3
+subst_anty_zloz	NSA	subst:%:m3
+subst_anty_zloz	NSA	subst:%:n2
+subst_anty_zloz	NSDAP	subst:%:f
+subst_anty_zloz	NSDAP	subst:%:n2
+subst_anty_zloz	NSZ	subst:%:m3
+subst_anty_zloz	NSZZ	subst:%:m3
+subst_anty_zloz	NW	subst:%:n2
+subst_anty_zloz	NWZA	subst:%:n2
+subst_anty_zloz	NZS	subst:%:m3
+subst_anty_zloz	NZS	subst:%:n2
+subst_anty_zloz	NZ	subst:%:f
+subst_anty_zloz	NZ	subst:%:m3
+subst_anty_zloz	OAPEC	subst:%:f
+subst_anty_zloz	OAPEC	subst:%:m3
+subst_anty_zloz	OBOP	subst:%:m3
+subst_anty_zloz	OB	subst:%:m3
+subst_anty_zloz	OB	subst:%:n2
+subst_anty_zloz	OCR	subst:%:m3
+subst_anty_zloz	OC	subst:%:n2
+subst_anty_zloz	OECD	subst:%:f
+subst_anty_zloz	OECD	subst:%:n2
+subst_anty_zloz	OFE	subst:%:m3
+subst_anty_zloz	OFE	subst:%:n2
+subst_anty_zloz	OHP	subst:%:n2
+subst_anty_zloz	OHP	subst:%:p3
+subst_anty_zloz	OIT	subst:%:m3
+subst_anty_zloz	ONR	subst:%:m3
+subst_anty_zloz	ON	subst:%:m3
+subst_anty_zloz	ONZ	subst:%:m3
+subst_anty_zloz	OPA	subst:%:f
+subst_anty_zloz	OPA	subst:%:n2
+subst_anty_zloz	OPD	subst:%:f
+subst_anty_zloz	OPD	subst:%:n2
+subst_anty_zloz	OPEC	subst:%:f
+subst_anty_zloz	OPEC	subst:%:m3
+subst_anty_zloz	OPZZ	subst:%:m3
+subst_anty_zloz	OPZZ	subst:%:n2
+subst_anty_zloz	ORMO	subst:%:n2
+subst_anty_zloz	ORP	subst:%:m3
+subst_anty_zloz	ORWN	subst:%:m3
+subst_anty_zloz	OSH	subst:%:f
+subst_anty_zloz	OSH	subst:%:n2
+subst_anty_zloz	OSP	subst:%:f
+subst_anty_zloz	OSP	subst:%:n2
+subst_anty_zloz	OWP	subst:%:f
+subst_anty_zloz	OWP	subst:%:m3
+subst_anty_zloz	OWP	subst:%:n2
+subst_anty_zloz	OZN	subst:%:m3
+subst_anty_zloz	PAGART	subst:%:m3
+subst_anty_zloz	PAH	subst:%:m3
+subst_anty_zloz	PAI	subst:%:f
+subst_anty_zloz	PAI	subst:%:m3
+subst_anty_zloz	PAL	subst:%:m3
+subst_anty_zloz	PAM	subst:%:f
+subst_anty_zloz	PAM	subst:%:m3
+subst_anty_zloz	PANAM	subst:%:m3
+subst_anty_zloz	PAN	subst:%:f
+subst_anty_zloz	PAN	subst:%:m3
+subst_anty_zloz	PAP	subst:%:f
+subst_anty_zloz	PAP	subst:%:m3
+subst_anty_zloz	PA	subst:%:f
+subst_anty_zloz	PA	subst:%:n2
+subst_anty_zloz	PAT	subst:%:f
+subst_anty_zloz	PAT	subst:%:m3
+subst_anty_zloz	PAU	subst:%:f
+subst_anty_zloz	PAU	subst:%:n2
+subst_anty_zloz	PAX	subst:%:m3
+subst_anty_zloz	PBG	subst:%:m3
+subst_anty_zloz	PBG	subst:%:n2
+subst_anty_zloz	PBH	subst:%:m3
+subst_anty_zloz	PBH	subst:%:n2
+subst_anty_zloz	PBKS	subst:%:m3
+subst_anty_zloz	PBK	subst:%:m3
+subst_anty_zloz	PBK	subst:%:n2
+subst_anty_zloz	PBR	subst:%:m3
+subst_anty_zloz	PBS	subst:%:f
+subst_anty_zloz	PBS	subst:%:m3
+subst_anty_zloz	PB	subst:%:m3
+subst_anty_zloz	PB	subst:%:n2
+subst_anty_zloz	PCI	subst:%:m3
+subst_anty_zloz	PCK	subst:%:m3
+subst_anty_zloz	PCK	subst:%:n2
+subst_anty_zloz	PCR	subst:%:f
+subst_anty_zloz	PCR	subst:%:n2
+subst_anty_zloz	PC	subst:%:m3
+subst_anty_zloz	PC	subst:%:n2
+subst_anty_zloz	PCV	subst:%:m3
+subst_anty_zloz	PCV	subst:%:n2
+subst_anty_zloz	PCW	subst:%:m3
+subst_anty_zloz	PCW	subst:%:n2
+subst_anty_zloz	PDS	subst:%:f
+subst_anty_zloz	PDS	subst:%:m3
+subst_anty_zloz	PDT	subst:%:m3
+subst_anty_zloz	PEN	subst:%:m3
+subst_anty_zloz	PESEL	subst:%:m3
+subst_anty_zloz	PFRON	subst:%:m3
+subst_anty_zloz	PGM	subst:%:m3
+subst_anty_zloz	PGM	subst:%:n2
+subst_anty_zloz	PGR	subst:%:m3
+subst_anty_zloz	PG	subst:%:f
+subst_anty_zloz	PG	subst:%:n2
+subst_anty_zloz	PHARE	subst:%:m3
+subst_anty_zloz	PHARE	subst:%:n2
+subst_anty_zloz	PH	subst:%:n2
+subst_anty_zloz	PIA	subst:%:f
+subst_anty_zloz	PIH	subst:%:m3
+subst_anty_zloz	PIN	subst:%:m3
+subst_anty_zloz	PIP	subst:%:f
+subst_anty_zloz	PIP	subst:%:m3
+subst_anty_zloz	PIT	subst:%:f
+subst_anty_zloz	PIT	subst:%:m3
+subst_anty_zloz	PIW	subst:%:m3
+subst_anty_zloz	PKB	subst:%:m3
+subst_anty_zloz	PKB	subst:%:n2
+subst_anty_zloz	PKD	subst:%:f
+subst_anty_zloz	PKD	subst:%:n2
+subst_anty_zloz	PKF	subst:%:f
+subst_anty_zloz	PKF	subst:%:m3
+subst_anty_zloz	PKLD	subst:%:m3
+subst_anty_zloz	PKN	subst:%:m3
+subst_anty_zloz	PKO	subst:%:f
+subst_anty_zloz	PKO	subst:%:n2
+subst_anty_zloz	PKP	subst:%:n2
+subst_anty_zloz	PKP	subst:%:p3
+subst_anty_zloz	PKS	subst:%:m3
+subst_anty_zloz	PK	subst:%:f
+subst_anty_zloz	PK	subst:%:n2
+subst_anty_zloz	PKWN	subst:%:m3
+subst_anty_zloz	PKZP	subst:%:f
+subst_anty_zloz	PKZP	subst:%:n2
+subst_anty_zloz	PLL	subst:%:m3
+subst_anty_zloz	PLO	subst:%:n2
+subst_anty_zloz	PNB	subst:%:m3
+subst_anty_zloz	PNB	subst:%:n2
+subst_anty_zloz	PN	subst:%:f
+subst_anty_zloz	PN	subst:%:m3
+subst_anty_zloz	PO	subst:%:f
+subst_anty_zloz	PO	subst:%:n2
+subst_anty_zloz	POW	subst:%:f
+subst_anty_zloz	POW	subst:%:n2
+subst_anty_zloz	PPL	subst:%:m3
+subst_anty_zloz	PPL	subst:%:n2
+subst_anty_zloz	PPPP	subst:%:f
+subst_anty_zloz	PPPP	subst:%:n2
+subst_anty_zloz	PPP	subst:%:f
+subst_anty_zloz	PPP	subst:%:n2
+subst_anty_zloz	PPR	subst:%:f
+subst_anty_zloz	PPR	subst:%:m3
+subst_anty_zloz	PPS	subst:%:m3
+subst_anty_zloz	PRL	subst:%:f
+subst_anty_zloz	PRL	subst:%:m3
+subst_anty_zloz	PRON	subst:%:m3
+subst_anty_zloz	PRS	subst:%:m3
+subst_anty_zloz	PR	subst:%:m3
+subst_anty_zloz	PR	subst:%:n2
+subst_anty_zloz	PSL	subst:%:m3
+subst_anty_zloz	PSL	subst:%:n2
+subst_anty_zloz	PSS	subst:%:m3
+subst_anty_zloz	PS	subst:%:f
+subst_anty_zloz	PS	subst:%:m3
+subst_anty_zloz	PTE	subst:%:n2
+subst_anty_zloz	PTJ	subst:%:m3
+subst_anty_zloz	PTJ	subst:%:n2
+subst_anty_zloz	PTK	subst:%:f
+subst_anty_zloz	PTTK	subst:%:n2
+subst_anty_zloz	PUR	subst:%:m3
+subst_anty_zloz	PVC	subst:%:m3
+subst_anty_zloz	PVC	subst:%:n2
+subst_anty_zloz	PWN	subst:%:m3
+subst_anty_zloz	PW	subst:%:f
+subst_anty_zloz	PW	subst:%:n2
+subst_anty_zloz	PZE	subst:%:m3
+subst_anty_zloz	PZE	subst:%:n2
+subst_anty_zloz	PZG	subst:%:m3
+subst_anty_zloz	PZG	subst:%:n2
+subst_anty_zloz	PZH	subst:%:m3
+subst_anty_zloz	PZH	subst:%:n2
+subst_anty_zloz	PZPN	subst:%:m3
+subst_anty_zloz	PZPR	subst:%:f
+subst_anty_zloz	PZPR	subst:%:m3
+subst_anty_zloz	PZU	subst:%:m3
+subst_anty_zloz	PZU	subst:%:n2
+subst_anty_zloz	QAL	subst:%:m3
+subst_anty_zloz	Q	subst:%:n2
+subst_anty_zloz	RAF	subst:%:m3
+subst_anty_zloz	RAI	subst:%:m3
+subst_anty_zloz	RAI	subst:%:n2
+subst_anty_zloz	RAM	subst:%:m3
+subst_anty_zloz	RAS	subst:%:f
+subst_anty_zloz	RAS	subst:%:m3
+subst_anty_zloz	RCA	subst:%:n2
+subst_anty_zloz	REGON	subst:%:m3
+subst_anty_zloz	REM	subst:%:m3
+subst_anty_zloz	REN	subst:%:f
+subst_anty_zloz	REN	subst:%:m3
+subst_anty_zloz	RE	subst:%:f
+subst_anty_zloz	RE	subst:%:n2
+subst_anty_zloz	RFN	subst:%:m3
+subst_anty_zloz	RGO	subst:%:f
+subst_anty_zloz	RGO	subst:%:n2
+subst_anty_zloz	RMF	subst:%:m3
+subst_anty_zloz	RMF	subst:%:n2
+subst_anty_zloz	RM	subst:%:f
+subst_anty_zloz	RM	subst:%:m3
+subst_anty_zloz	RNA	subst:%:m3
+subst_anty_zloz	RNA	subst:%:n2
+subst_anty_zloz	RN	subst:%:f
+subst_anty_zloz	RN	subst:%:m3
+subst_anty_zloz	ROM	subst:%:m3
+subst_anty_zloz	ROP	subst:%:m3
+subst_anty_zloz	ROR	subst:%:m3
+subst_anty_zloz	RPA	subst:%:f
+subst_anty_zloz	RPN	subst:%:m3
+subst_anty_zloz	RPO	subst:%:m3
+subst_anty_zloz	RP	subst:%:f
+subst_anty_zloz	RPU	subst:%:m3
+subst_anty_zloz	RSHA	subst:%:m3
+subst_anty_zloz	RSHA	subst:%:n2
+subst_anty_zloz	RSW	subst:%:f
+subst_anty_zloz	RSW	subst:%:n2
+subst_anty_zloz	RTV	subst:%:n2
+subst_anty_zloz	RUM	subst:%:m3
+subst_anty_zloz	RUP	subst:%:m3
+subst_anty_zloz	RWE	subst:%:n2
+subst_anty_zloz	RWPG	subst:%:f
+subst_anty_zloz	RWPG	subst:%:n2
+subst_anty_zloz	SAAB	subst:%:m3
+subst_anty_zloz	SAA	subst:%:m3
+subst_anty_zloz	SAA	subst:%:n2
+subst_anty_zloz	SABENA	subst:%:f
+subst_anty_zloz	SABEN	subst:%:f
+subst_anty_zloz	SAPA	subst:%:f
+subst_anty_zloz	SARS	subst:%:m3
+subst_anty_zloz	SAS	subst:%:m3
+subst_anty_zloz	SA	subst:%:f
+subst_anty_zloz	SA	subst:%:n2
+subst_anty_zloz	SB	subst:%:f
+subst_anty_zloz	SB	subst:%:n2
+subst_anty_zloz	SCMS	subst:%:m3
+subst_anty_zloz	SDK	subst:%:m3
+subst_anty_zloz	SDK	subst:%:n2
+subst_anty_zloz	SDP	subst:%:n2
+subst_anty_zloz	SD	subst:%:n2
+subst_anty_zloz	SEATO	subst:%:f
+subst_anty_zloz	SEATO	subst:%:n2
+subst_anty_zloz	SECAM	subst:%:m3
+subst_anty_zloz	SF	subst:%:n2
+subst_anty_zloz	SGGW	subst:%:f
+subst_anty_zloz	SGGW	subst:%:n2
+subst_anty_zloz	SGH	subst:%:f
+subst_anty_zloz	SGH	subst:%:n2
+subst_anty_zloz	SGML	subst:%:m2
+subst_anty_zloz	SGML	subst:%:m3
+subst_anty_zloz	SG	subst:%:f
+subst_anty_zloz	SG	subst:%:n2
+subst_anty_zloz	SIMM	subst:%:m3
+subst_anty_zloz	SIM	subst:%:m3
+subst_anty_zloz	SI	subst:%:n2
+subst_anty_zloz	SKOK	subst:%:f
+subst_anty_zloz	SKOK	subst:%:m3
+subst_anty_zloz	SKS	subst:%:m3
+subst_anty_zloz	SLD	subst:%:m3
+subst_anty_zloz	SLD	subst:%:n2
+subst_anty_zloz	SLO	subst:%:n2
+subst_anty_zloz	SMJP	subst:%:n2
+subst_anty_zloz	SMS	subst:%:m2
+subst_anty_zloz	SMS	subst:%:m3
+subst_anty_zloz	SM	subst:%:f
+subst_anty_zloz	SM	subst:%:m3
+subst_anty_zloz	SOK	subst:%:f
+subst_anty_zloz	SOK	subst:%:m3
+subst_anty_zloz	SOS	subst:%:m3
+subst_anty_zloz	SOS	subst:%:n2
+subst_anty_zloz	SO	subst:%:m3
+subst_anty_zloz	SO	subst:%:n2
+subst_anty_zloz	SPD	subst:%:f
+subst_anty_zloz	SPD	subst:%:n2
+subst_anty_zloz	SPF	subst:%:m3
+subst_anty_zloz	SPN	subst:%:m3
+subst_anty_zloz	SPP	subst:%:m3
+subst_anty_zloz	SPP	subst:%:n2
+subst_anty_zloz	SP	subst:%:f
+subst_anty_zloz	SP	subst:%:n2
+subst_anty_zloz	SS	subst:%:f
+subst_anty_zloz	SS	subst:%:n2
+subst_anty_zloz	STAR	subst:%:m2
+subst_anty_zloz	SUDANAIR	subst:%:m3
+subst_anty_zloz	SW	subst:%:m3
+subst_anty_zloz	TAB	subst:%:m3
+subst_anty_zloz	TAB	subst:%:n2
+subst_anty_zloz	TGV	subst:%:m3
+subst_anty_zloz	TGV	subst:%:n2
+subst_anty_zloz	TIR	subst:%:m2
+subst_anty_zloz	TKJ	subst:%:m3
+subst_anty_zloz	TKJ	subst:%:n2
+subst_anty_zloz	TKKF	subst:%:m3
+subst_anty_zloz	TKKF	subst:%:n2
+subst_anty_zloz	TK	subst:%:m3
+subst_anty_zloz	TNT	subst:%:n2
+subst_anty_zloz	TOPR	subst:%:m3
+subst_anty_zloz	TOPR	subst:%:n2
+subst_anty_zloz	TOZ	subst:%:m3
+subst_anty_zloz	TOZ	subst:%:n2
+subst_anty_zloz	TPD	subst:%:n2
+subst_anty_zloz	TPI	subst:%:n2
+subst_anty_zloz	TPN	subst:%:m3
+subst_anty_zloz	TPPR	subst:%:m3
+subst_anty_zloz	TPPR	subst:%:n2
+subst_anty_zloz	TP	subst:%:f
+subst_anty_zloz	TP	subst:%:n2
+subst_anty_zloz	TS	subst:%:m3
+subst_anty_zloz	TUR	subst:%:m3
+subst_anty_zloz	TUR	subst:%:n2
+subst_anty_zloz	TVN	subst:%:f
+subst_anty_zloz	TVN	subst:%:m3
+subst_anty_zloz	TVP	subst:%:f
+subst_anty_zloz	TV	subst:%:f
+subst_anty_zloz	TWA	subst:%:f
+subst_anty_zloz	TWA	subst:%:m3
+subst_anty_zloz	TWP	subst:%:n2
+subst_anty_zloz	TW	subst:%:m3
+subst_anty_zloz	TW	subst:%:n2
+subst_anty_zloz	TZSP	subst:%:n2
+subst_anty_zloz	UAM	subst:%:m3
+subst_anty_zloz	UB	subst:%:m3
+subst_anty_zloz	UB	subst:%:n2
+subst_anty_zloz	UC	subst:%:m3
+subst_anty_zloz	UC	subst:%:n2
+subst_anty_zloz	UEFA	subst:%:f
+subst_anty_zloz	UEF	subst:%:f
+subst_anty_zloz	UE	subst:%:f
+subst_anty_zloz	UE	subst:%:n2
+subst_anty_zloz	UFO	subst:%:n2
+subst_anty_zloz	UG	subst:%:m3
+subst_anty_zloz	UG	subst:%:n2
+subst_anty_zloz	UHT	subst:%:n2
+subst_anty_zloz	UJ	subst:%:m3
+subst_anty_zloz	UKF	subst:%:m3
+subst_anty_zloz	UKSW	subst:%:m3
+subst_anty_zloz	UKSW	subst:%:n2
+subst_anty_zloz	UKW	subst:%:m3
+subst_anty_zloz	UMCS	subst:%:m3
+subst_anty_zloz	UMK	subst:%:m3
+subst_anty_zloz	UMK	subst:%:n2
+subst_anty_zloz	UM	subst:%:m3
+subst_anty_zloz	UMTS	subst:%:m3
+subst_anty_zloz	UNESCO	subst:%:f
+subst_anty_zloz	UNESCO	subst:%:n2
+subst_anty_zloz	UNICEF	subst:%:m3
+subst_anty_zloz	UNIX	subst:%:m2
+subst_anty_zloz	UNO	subst:%:f
+subst_anty_zloz	UNO	subst:%:n2
+subst_anty_zloz	UNRRA	subst:%:f
+subst_anty_zloz	UN	subst:%:m3
+subst_anty_zloz	UN	subst:%:p3
+subst_anty_zloz	UNZ	subst:%:m3
+subst_anty_zloz	UOP	subst:%:m3
+subst_anty_zloz	UO	subst:%:m3
+subst_anty_zloz	UO	subst:%:n2
+subst_anty_zloz	UPA	subst:%:f
+subst_anty_zloz	UPA	subst:%:n2
+subst_anty_zloz	UPI	subst:%:m3
+subst_anty_zloz	UPI	subst:%:n2
+subst_anty_zloz	UPR	subst:%:f
+subst_anty_zloz	UPR	subst:%:m3
+subst_anty_zloz	UPS	subst:%:m3
+subst_anty_zloz	UP	subst:%:f
+subst_anty_zloz	UP	subst:%:n2
+subst_anty_zloz	UPT	subst:%:m3
+subst_anty_zloz	UPT	subst:%:n2
+subst_anty_zloz	URL	subst:%:m3
+subst_anty_zloz	URM	subst:%:m3
+subst_anty_zloz	USA	subst:%:p2
+subst_anty_zloz	USA	subst:%:p3
+subst_anty_zloz	USB	subst:%:n2
+subst_anty_zloz	USC	subst:%:m3
+subst_anty_zloz	USC	subst:%:n2
+subst_anty_zloz	USG	subst:%:n2
+subst_anty_zloz	US	subst:%:m3
+subst_anty_zloz	UTP	subst:%:m3
+subst_anty_zloz	UV	subst:%:m3
+subst_anty_zloz	UWM	subst:%:m3
+subst_anty_zloz	UW	subst:%:f
+subst_anty_zloz	UW	subst:%:m3
+subst_anty_zloz	UW	subst:%:n2
+subst_anty_zloz	UZ	subst:%:m3
+subst_anty_zloz	VAT	subst:%:m3
+subst_anty_zloz	VCR	subst:%:m3
+subst_anty_zloz	VGA	subst:%:f
+subst_anty_zloz	VHF	subst:%:m3
+subst_anty_zloz	VHS	subst:%:m3
+subst_anty_zloz	VIP	subst:%:m1
+subst_anty_zloz	VW	subst:%:m3
+subst_anty_zloz	VW	subst:%:n2
+subst_anty_zloz	WAN	subst:%:m3
+subst_anty_zloz	WAP	subst:%:m3
+subst_anty_zloz	WAT	subst:%:m3
+subst_anty_zloz	WBK	subst:%:m3
+subst_anty_zloz	WBK	subst:%:n2
+subst_anty_zloz	WBZ	subst:%:m3
+subst_anty_zloz	WC	subst:%:n2
+subst_anty_zloz	WEP	subst:%:m3
+subst_anty_zloz	WF	subst:%:m3
+subst_anty_zloz	WFSW	subst:%:n2
+subst_anty_zloz	WFTU	subst:%:f
+subst_anty_zloz	WHO	subst:%:n2
+subst_anty_zloz	WIG	subst:%:m3
+subst_anty_zloz	WKD	subst:%:n2
+subst_anty_zloz	WKR	subst:%:m3
+subst_anty_zloz	WKU	subst:%:f
+subst_anty_zloz	WKU	subst:%:n2
+subst_anty_zloz	WMO	subst:%:f
+subst_anty_zloz	WMO	subst:%:n2
+subst_anty_zloz	WNP	subst:%:f
+subst_anty_zloz	WNP	subst:%:n2
+subst_anty_zloz	WOPR	subst:%:m3
+subst_anty_zloz	WOP	subst:%:m3
+subst_anty_zloz	WP	subst:%:n2
+subst_anty_zloz	WRN	subst:%:f
+subst_anty_zloz	WRN	subst:%:m3
+subst_anty_zloz	WRN	subst:%:n2
+subst_anty_zloz	WRON	subst:%:f
+subst_anty_zloz	WRON	subst:%:m3
+subst_anty_zloz	WSI	subst:%:n2
+subst_anty_zloz	WSK	subst:%:f
+subst_anty_zloz	WSK	subst:%:n2
+subst_anty_zloz	WSM	subst:%:m3
+subst_anty_zloz	WSP	subst:%:f
+subst_anty_zloz	WSP	subst:%:n2
+subst_anty_zloz	WSW	subst:%:m3
+subst_anty_zloz	WSW	subst:%:n2
+subst_anty_zloz	WTC	subst:%:n2
+subst_anty_zloz	WTO	subst:%:m3
+subst_anty_zloz	WTO	subst:%:n2
+subst_anty_zloz	WWW	subst:%:f
+subst_anty_zloz	WZA	subst:%:n2
+subst_anty_zloz	XBW	subst:%:m1
+subst_anty_zloz	XML	subst:%:m2
+subst_anty_zloz	XML	subst:%:m3
+subst_anty_zloz	YMCA	subst:%:f
+subst_anty_zloz	YMCA	subst:%:n2
+subst_anty_zloz	YWCA	subst:%:f
+subst_anty_zloz	YWCA	subst:%:n2
+subst_anty_zloz	ZAIKS	subst:%:m3
+subst_anty_zloz	ZASP	subst:%:m3
+subst_anty_zloz	ZEA	subst:%:p2
+subst_anty_zloz	ZEA	subst:%:p3
+subst_anty_zloz	ZGH	subst:%:n2
+subst_anty_zloz	ZHP	subst:%:m3
+subst_anty_zloz	ZHP	subst:%:n2
+subst_anty_zloz	ZHR	subst:%:m3
+subst_anty_zloz	ZK	subst:%:m3
+subst_anty_zloz	ZK	subst:%:n2
+subst_anty_zloz	ZLP	subst:%:m3
+subst_anty_zloz	ZLP	subst:%:n2
+subst_anty_zloz	ZMP	subst:%:m3
+subst_anty_zloz	ZMP	subst:%:n2
+subst_anty_zloz	ZMS	subst:%:m3
+subst_anty_zloz	ZNP	subst:%:m3
+subst_anty_zloz	ZNP	subst:%:n2
+subst_anty_zloz	ZOMO	subst:%:n2
+subst_anty_zloz	ZOM	subst:%:m3
+subst_anty_zloz	ZOSP	subst:%:m3
+subst_anty_zloz	ZOZ	subst:%:m3
+subst_anty_zloz	ZPB	subst:%:m3
+subst_anty_zloz	ZSL	subst:%:m3
+subst_anty_zloz	ZSL	subst:%:n2
+subst_anty_zloz	ZSMP	subst:%:m3
+subst_anty_zloz	ZSMP	subst:%:n2
+subst_anty_zloz	ZSP	subst:%:m3
+subst_anty_zloz	ZSP	subst:%:n2
+subst_anty_zloz	ZSRR	subst:%:m3
+subst_anty_zloz	ZSRR	subst:%:n2
+subst_anty_zloz	ZSSR	subst:%:m3
+subst_anty_zloz	ZSSR	subst:%:n2
+subst_anty_zloz	ZS	subst:%:m3
+subst_anty_zloz	ZSZ	subst:%:f
+subst_anty_zloz	ZSZ	subst:%:m3
+subst_anty_zloz	ZUS	subst:%:m3
+subst_anty_zloz	ZWM	subst:%:m3
+subst_anty_zloz	ZWZ	subst:%:m3
+subst_anty_zloz	ZZ	subst:%:m3
+# Koniec skrótowców ndm
+prep_na		na	prep:%
+prep_n		do	prep:%
+prep_n		dla	prep:%
+prep_n		koło	prep:%
+prep_n		o	prep:%
+prep_n		po	prep:%
+prep_n		poza	prep:%
+prep_n		spoza	prep:%
+prep_n		za	prep:%
+prep_n		zza	prep:%
+sufs	+znawca	subst:%
+sufs	+dawca	subst:%
+sufs	+biorca	subst:%
+sufs	+żerca	subst:%
+sufs	+maniak	subst:%
+sufs	+logia	subst:%
+sufs	+log	subst:%
+suf_num	+latek	subst:%
+suf_num	+latka	subst:%
+suf_num	+lecie	subst:%
+suf_num	+krotność	subst:%
+suf_num	+ścian	subst:%
+suf_ord	ty	adj:%
+suf_ord	y	adj:%
+romandigI	I	romandig
+romandigV	V	romandig
+romandigX	X	romandig
+romandigL	L	romandig
+romandigC	C	romandig
+romandigD	D	romandig
+romandigM	M	romandig
+ja	ja	ppron12:sg:nom:%
+ty	ty	ppron12:sg:nom:%
+my	my	ppron12:pl:nom:%
+wy	wy	ppron12:pl:nom:%
+pref_dyw	e-+	prefa
+pref_dyw	e-+	prefs
+miary	stopień_Celsjusza	brev:%
+miary	stopień_Fahrenheita	brev:%
+miary	metr_kwadratowy	brev:%
+miary	metr_sześcienny	brev:%
+miary	euro	brev:%
+miary	jen	brev:%
+wszyscy	wszystek	adj:%
+
+[separator chars]
+# numery dziesiętne (decimal)
+# http://www.fileformat.info/info/charset/UTF-8/list.htm
+
+# !
+33
+
+# "
+34
+
+# %
+37
+
+# (
+40
+
+# )
+41
+
+# ,
+44
+
+# .
+46
+
+# /
+47
+
+# :
+58
+
+# ;
+59
+
+# ?
+63
+
+# @
+64
+
+# [
+91
+
+# ]
+93
+
+# {
+123
+
+# }
+125
+
+# «
+171
+
+# »
+187
+
+# .
+1748
+
+# …
+8230
+
+# ‹
+8249
+
+# ›
+8250
+
+# „
+8222
+
+# ”
+8221
+
+# ‚
+8218
+
+# ’
+8217
+
+# “
+8220
+
+# ‘
+8216
+
+# –
+8211
+
+# —
+8212
+

@@ -1,0 +1,93 @@
+[options]
+aggl=permissive strict isolated
+praet=split composite
+
+[combinations]
+#define wsz_interp (interp|kropka|dywiz)*
+
+#define moze_interp(segmenty) wsz_interp segmenty wsz_interp
+
+moze_interp(samodz)
+samotny
+
+
+[segment types]
+naj>
+nie>
+prefs
+prefv
+dig
+adja
+adj
+adj_sup
+negat
+on_agl
+z_on_agl
+samotny
+interp
+aglsg
+aglpl
+praetcond
+praet_sg_agl
+praet_sg_na
+praet_sg
+praet_pl
+samodz
+
+[tags]
+naj	naj
+nie	nie
+prefs	prefs
+prefv	prefv
+dig	dig
+adja	adja
+adj	adj:%:pos
+adj_sup	adj:%:sup
+adj_sup	adv:sup
+negat	ger:%:neg
+negat	pact:%:neg
+negat	ppas:%:neg
+on_agl	ppron3:sg:gen.acc:m1.m2.m3:ter:nakc:praep
+z_on_agl	prep:%
+samotny	brev:pun
+samotny	brev:npun
+samotny	intrj
+interp	interp
+aglsg	aglt:sg:%
+aglpl	aglt:pl:%
+praetcond	cond:%
+praetcond	praet:%:pri:%
+praetcond	praet:%:sec:%
+praetcond	praet:%:ter:%
+praet_sg_agl	praet:sg:%:agl
+praet_sg_na	praet:sg:%:nagl
+praet_sg	praet:sg:%
+praet_pl	praet:pl:%
+praet_sg	winien:sg:%
+praet_pl	winien:pl:%
+samodz		%
+
+[lexemes]
+z_aglt	aby:comp
+z_aglt	bowiem:comp
+by	by:qub
+z_aglt	by:comp
+z_aglt	cóż:subst
+z_aglt	czemu:adv
+z_aglt	czyżby:qub
+z_aglt	choćby:comp
+z_aglt	chociażby:comp
+z_aglt	dlaczego:adv
+z_aglt	dopóki:comp
+z_aglt	dopóty:conj
+z_aglt	gdyby:comp
+z_aglt	gdzie:qub
+z_aglt	gdzie:adv
+z_aglt	jakby:comp
+z_aglt	jakoby:comp
+z_aglt	kiedy:adv
+z_aglt	kiedy:comp
+z_aglt	tylko:qub
+z_aglt	żeby:comp
+dywiz	-:interp
+kropka	.:interp

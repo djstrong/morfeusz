@@ -1,0 +1,10 @@
+set (CPACK_COMPONENTS_ALL baseasdfa)
+#~ if (CPACK_GENERATOR STREQUAL "DEB")
+    #~ set (CPACK_COMPONENTS_ALL base pythondeb)
+#~ elseif (CPACK_GENERATOR STREQUAL "TGZ")
+    #~ set (CPACK_COMPONENTS_ALL base pythontgz)
+#~ elseif (CPACK_GENERATOR STREQUAL "NSIS")
+    #~ set (CPACK_COMPONENTS_ALL base)
+#~ else
+    #~ set (CPACK_COMPONENTS_ALL base)
+#~ endif ()
